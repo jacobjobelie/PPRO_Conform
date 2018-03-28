@@ -1,0 +1,1389 @@
+[
+{
+  "words": [
+  {
+    "text": "Selling",
+    "startTime": 0.26693333333333,
+    "endTime": 0.5005000000000001,
+    "confidence": 0.92,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 0.51718333333333
+  },
+  {
+    "text": "Dave",
+    "startTime": 0.51718333333333,
+    "endTime": 0.73406666666667,
+    "confidence": 0.87,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 0.73406666666667
+  },
+  {
+    "text": "a",
+    "startTime": 0.73406666666667,
+    "endTime": 0.81748333333334,
+    "confidence": 0.89,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 0.83416666666667
+  },
+  {
+    "text": "software",
+    "startTime": 0.83416666666667,
+    "endTime": 1.2012,
+    "confidence": 0.99,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 1.21788333333333
+  },
+  {
+    "text": "is",
+    "startTime": 1.21788333333333,
+    "endTime": 1.28461666666666,
+    "confidence": 0.47,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 1.28461666666667
+  },
+  {
+    "text": "it's",
+    "startTime": 1.28461666666667,
+    "endTime": 1.35135,
+    "confidence": 0.53,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 1.35135
+  },
+  {
+    "text": "no",
+    "startTime": 1.35135,
+    "endTime": 1.53486666666667,
+    "confidence": 1,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 1.53486666666667
+  },
+  {
+    "text": "joke",
+    "startTime": 1.53486666666667,
+    "endTime": 1.83516666666667,
+    "confidence": 1,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 1.83516666666667
+  },
+  {
+    "text": "it's",
+    "startTime": 1.83516666666667,
+    "endTime": 1.96863333333334,
+    "confidence": 0.85,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 1.98531666666667
+  },
+  {
+    "text": "not",
+    "startTime": 1.98531666666667,
+    "endTime": 2.1021,
+    "confidence": 1,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 2.1021
+  },
+  {
+    "text": "an",
+    "startTime": 2.1021,
+    "endTime": 2.15215,
+    "confidence": 1,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 2.15215
+  },
+  {
+    "text": "easy",
+    "startTime": 2.15215,
+    "endTime": 2.45245,
+    "confidence": 1,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 2.45245
+  },
+  {
+    "text": "thing.",
+    "startTime": 2.45245,
+    "endTime": 2.7861166666666697,
+    "confidence": 1,
+    "transcriptIndex": 0,
+    "transcriptId": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+    "nextStartTime": 2.81948333333333
+  }],
+  "speaker": "0",
+  "id": "503b3ef6-0e9c-4852-a017-fc69d87f8ac3",
+  "clipName": "Alexia",
+  "startTime": 0.26693333333333,
+  "endTime": 2.7861166666666697
+},
+{
+  "words": [
+  {
+    "text": "So",
+    "startTime": 2.81948333333333,
+    "endTime": 3.18651666666666,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 3.65365
+  },
+  {
+    "text": "being",
+    "startTime": 3.65365,
+    "endTime": 3.9873166666666697,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 3.98731666666667
+  },
+  {
+    "text": "able",
+    "startTime": 3.98731666666667,
+    "endTime": 4.22088333333334,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 4.23756666666667
+  },
+  {
+    "text": "to",
+    "startTime": 4.23756666666667,
+    "endTime": 4.38771666666667,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 4.38771666666667
+  },
+  {
+    "text": "be",
+    "startTime": 4.38771666666667,
+    "endTime": 4.57123333333334,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 4.58791666666667
+  },
+  {
+    "text": "guided",
+    "startTime": 4.58791666666667,
+    "endTime": 5.1051,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 5.1051
+  },
+  {
+    "text": "by",
+    "startTime": 5.1051,
+    "endTime": 5.3053,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 5.3053
+  },
+  {
+    "text": "someone",
+    "startTime": 5.3053,
+    "endTime": 5.63896666666667,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 5.63896666666667
+  },
+  {
+    "text": "who",
+    "startTime": 5.63896666666667,
+    "endTime": 5.85585,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 5.85585
+  },
+  {
+    "text": "has",
+    "startTime": 5.85585,
+    "endTime": 6.25625,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 6.25625
+  },
+  {
+    "text": "less",
+    "startTime": 6.25625,
+    "endTime": 6.4064,
+    "confidence": 0.69,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 6.42308333333333
+  },
+  {
+    "text": "experience",
+    "startTime": 6.42308333333333,
+    "endTime": 7.2072,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 7.2072
+  },
+  {
+    "text": "from",
+    "startTime": 7.2072,
+    "endTime": 7.59091666666667,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 7.67433333333333
+  },
+  {
+    "text": "other",
+    "startTime": 7.67433333333333,
+    "endTime": 7.941266666666659,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 7.95795
+  },
+  {
+    "text": "similar",
+    "startTime": 7.95795,
+    "endTime": 8.37503333333333,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 8.37503333333333
+  },
+  {
+    "text": "companies",
+    "startTime": 8.37503333333333,
+    "endTime": 8.942266666666661,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 8.94226666666667
+  },
+  {
+    "text": "is",
+    "startTime": 8.94226666666667,
+    "endTime": 9.15915,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 9.2092
+  },
+  {
+    "text": "extremely",
+    "startTime": 9.2092,
+    "endTime": 9.87653333333333,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 9.87653333333333
+  },
+  {
+    "text": "extremely",
+    "startTime": 9.87653333333333,
+    "endTime": 10.4771333333333,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 10.4771333333333
+  },
+  {
+    "text": "valuable.",
+    "startTime": 10.4771333333333,
+    "endTime": 11.01099999999997,
+    "confidence": 1,
+    "transcriptIndex": 1,
+    "transcriptId": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+    "nextStartTime": 11.2203666666667
+  }],
+  "speaker": "0",
+  "id": "985d63b2-9a89-47e5-a49f-16b3e8f5a60e",
+  "clipName": "Alexia",
+  "startTime": 2.81948333333333,
+  "endTime": 11.01099999999997
+},
+{
+  "words": [
+  {
+    "text": "Yeah",
+    "startTime": 11.2203666666667,
+    "endTime": 11.5703666666667,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 11.6403666666667
+  },
+  {
+    "text": "the",
+    "startTime": 11.6403666666667,
+    "endTime": 11.7303666666667,
+    "confidence": 0.94,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 11.7603666666667
+  },
+  {
+    "text": "men's",
+    "startTime": 11.7603666666667,
+    "endTime": 11.9703666666667,
+    "confidence": 0.27,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 12.3903666666667
+  },
+  {
+    "text": "team",
+    "startTime": 12.3903666666667,
+    "endTime": 12.780366666666701,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 12.780366666666701
+  },
+  {
+    "text": "has",
+    "startTime": 12.780366666666701,
+    "endTime": 13.0803666666667,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 13.0803666666667
+  },
+  {
+    "text": "been",
+    "startTime": 13.0803666666667,
+    "endTime": 13.2603666666667,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 13.260366666666702
+  },
+  {
+    "text": "able",
+    "startTime": 13.260366666666702,
+    "endTime": 13.380366666666701,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 13.380366666666701
+  },
+  {
+    "text": "to",
+    "startTime": 13.380366666666701,
+    "endTime": 13.4703666666667,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 13.4703666666667
+  },
+  {
+    "text": "be",
+    "startTime": 13.4703666666667,
+    "endTime": 13.710366666666701,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 13.710366666666701
+  },
+  {
+    "text": "incredibly",
+    "startTime": 13.710366666666701,
+    "endTime": 14.130366666666701,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 14.130366666666701
+  },
+  {
+    "text": "successful",
+    "startTime": 14.130366666666701,
+    "endTime": 14.790366666666701,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 14.790366666666701
+  },
+  {
+    "text": "because",
+    "startTime": 14.790366666666701,
+    "endTime": 15.3303666666667,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 15.3303666666667
+  },
+  {
+    "text": "our",
+    "startTime": 15.3303666666667,
+    "endTime": 15.4203666666667,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 15.420366666666702
+  },
+  {
+    "text": "engineers",
+    "startTime": 15.420366666666702,
+    "endTime": 15.870366666666701,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 15.870366666666701
+  },
+  {
+    "text": "have",
+    "startTime": 15.870366666666701,
+    "endTime": 15.960366666666701,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 15.960366666666701
+  },
+  {
+    "text": "built",
+    "startTime": 15.960366666666701,
+    "endTime": 16.240366666666702,
+    "confidence": 0.95,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 16.7103666666667
+  },
+  {
+    "text": "an",
+    "startTime": 16.7103666666667,
+    "endTime": 16.8003666666667,
+    "confidence": 0.95,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 16.8003666666667
+  },
+  {
+    "text": "incredible",
+    "startTime": 16.8003666666667,
+    "endTime": 17.310366666666702,
+    "confidence": 1,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 17.310366666666702
+  },
+  {
+    "text": "edge",
+    "startTime": 17.310366666666702,
+    "endTime": 17.490366666666702,
+    "confidence": 0.65,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 17.490366666666702
+  },
+  {
+    "text": "that",
+    "startTime": 17.490366666666702,
+    "endTime": 17.5503666666667,
+    "confidence": 0.56,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 17.5503666666667
+  },
+  {
+    "text": "incredible",
+    "startTime": 17.5503666666667,
+    "endTime": 17.9103666666667,
+    "confidence": 0.96,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 17.9103666666667
+  },
+  {
+    "text": "to",
+    "startTime": 17.9103666666667,
+    "endTime": 18.0003666666667,
+    "confidence": 0.98,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 18.0003666666667
+  },
+  {
+    "text": "us.",
+    "startTime": 18.0003666666667,
+    "endTime": 18.2103666666667,
+    "confidence": 0.98,
+    "transcriptIndex": 2,
+    "transcriptId": "ecac457e-660e-4d45-a922-b36cba2368f9",
+    "nextStartTime": 18.490366666666702
+  }],
+  "speaker": 1,
+  "id": "ecac457e-660e-4d45-a922-b36cba2368f9",
+  "clipName": "Dhiraj",
+  "startTime": 11.2203666666667,
+  "endTime": 18.2103666666667
+},
+{
+  "words": [
+  {
+    "text": "And",
+    "startTime": 18.490366666666702,
+    "endTime": 18.5703666666667,
+    "confidence": 0.84,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 18.5903666666667,
+    "type": "undo"
+  },
+  {
+    "text": "then",
+    "startTime": 18.5903666666667,
+    "endTime": 18.6903666666667,
+    "confidence": 0.65,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 18.6903666666667
+  },
+  {
+    "text": "cycle",
+    "startTime": 18.6903666666667,
+    "endTime": 18.950366666666703,
+    "confidence": 0.33,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 18.9603666666667
+  },
+  {
+    "text": "sales",
+    "startTime": 18.9603666666667,
+    "endTime": 19.260366666666698,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 19.260366666666698
+  },
+  {
+    "text": "team",
+    "startTime": 19.260366666666698,
+    "endTime": 19.620366666666698,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 19.6503666666667
+  },
+  {
+    "text": "has",
+    "startTime": 19.6503666666667,
+    "endTime": 19.9203666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 19.920366666666702
+  },
+  {
+    "text": "been",
+    "startTime": 19.920366666666702,
+    "endTime": 20.400366666666702,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 20.5803666666667
+  },
+  {
+    "text": "successful",
+    "startTime": 20.5803666666667,
+    "endTime": 21.2403666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 21.270366666666703
+  },
+  {
+    "text": "because",
+    "startTime": 21.270366666666703,
+    "endTime": 21.560366666666702,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 21.560366666666702
+  },
+  {
+    "text": "our",
+    "startTime": 21.560366666666702,
+    "endTime": 21.6603666666667,
+    "confidence": 0.66,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 21.6603666666667
+  },
+  {
+    "text": "engineers",
+    "startTime": 21.6603666666667,
+    "endTime": 22.0803666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 22.0803666666667
+  },
+  {
+    "text": "have",
+    "startTime": 22.0803666666667,
+    "endTime": 22.3803666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 22.380366666666703
+  },
+  {
+    "text": "put",
+    "startTime": 22.380366666666703,
+    "endTime": 22.5303666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 22.5303666666667
+  },
+  {
+    "text": "together",
+    "startTime": 22.5303666666667,
+    "endTime": 23.010366666666698,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 23.010366666666698
+  },
+  {
+    "text": "an",
+    "startTime": 23.010366666666698,
+    "endTime": 23.100366666666698,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 23.1003666666667
+  },
+  {
+    "text": "incredible",
+    "startTime": 23.1003666666667,
+    "endTime": 23.5503666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 23.5503666666667
+  },
+  {
+    "text": "product",
+    "startTime": 23.5503666666667,
+    "endTime": 24.1803666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 24.760366666666698
+  },
+  {
+    "text": "developed",
+    "startTime": 24.760366666666698,
+    "endTime": 25.050366666666697,
+    "confidence": 0.89,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 25.0803666666667
+  },
+  {
+    "text": "team",
+    "startTime": 25.0803666666667,
+    "endTime": 25.4703666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 25.4703666666667
+  },
+  {
+    "text": "has",
+    "startTime": 25.4703666666667,
+    "endTime": 25.9203666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 25.9803666666667
+  },
+  {
+    "text": "levers",
+    "startTime": 25.9803666666667,
+    "endTime": 26.3103666666667,
+    "confidence": 0.99,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 26.310366666666702
+  },
+  {
+    "text": "that",
+    "startTime": 26.310366666666702,
+    "endTime": 26.4003666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 26.4003666666667
+  },
+  {
+    "text": "product",
+    "startTime": 26.4003666666667,
+    "endTime": 26.7903666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 26.7903666666667
+  },
+  {
+    "text": "to",
+    "startTime": 26.7903666666667,
+    "endTime": 26.9103666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 26.9103666666667
+  },
+  {
+    "text": "build",
+    "startTime": 26.9103666666667,
+    "endTime": 27.1803666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 27.2103666666667
+  },
+  {
+    "text": "interest",
+    "startTime": 27.2103666666667,
+    "endTime": 27.900366666666702,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 28.080366666666702
+  },
+  {
+    "text": "and",
+    "startTime": 28.080366666666702,
+    "endTime": 28.2003666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 28.2003666666667
+  },
+  {
+    "text": "pipeline",
+    "startTime": 28.2003666666667,
+    "endTime": 28.7103666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 28.7103666666667
+  },
+  {
+    "text": "from",
+    "startTime": 28.7103666666667,
+    "endTime": 28.8903666666667,
+    "confidence": 0.97,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 28.8903666666667
+  },
+  {
+    "text": "the",
+    "startTime": 28.8903666666667,
+    "endTime": 28.9503666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 28.9503666666667
+  },
+  {
+    "text": "market",
+    "startTime": 28.9503666666667,
+    "endTime": 29.4503666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 29.8203666666667
+  },
+  {
+    "text": "and",
+    "startTime": 29.8203666666667,
+    "endTime": 30.330366666666702,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 30.3903666666667
+  },
+  {
+    "text": "our",
+    "startTime": 30.3903666666667,
+    "endTime": 30.5403666666667,
+    "confidence": 0.98,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 30.5403666666667
+  },
+  {
+    "text": "executives",
+    "startTime": 30.5403666666667,
+    "endTime": 31.0003666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 31.0003666666667
+  },
+  {
+    "text": "have",
+    "startTime": 31.0003666666667,
+    "endTime": 31.0803666666667,
+    "confidence": 0.54,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 31.080366666666702
+  },
+  {
+    "text": "brought",
+    "startTime": 31.080366666666702,
+    "endTime": 31.3503666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 31.3503666666667
+  },
+  {
+    "text": "on",
+    "startTime": 31.3503666666667,
+    "endTime": 31.7103666666667,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 31.7103666666667
+  },
+  {
+    "text": "industry",
+    "startTime": 31.7103666666667,
+    "endTime": 32.160366666666704,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 32.160366666666704
+  },
+  {
+    "text": "leading",
+    "startTime": 32.160366666666704,
+    "endTime": 32.4903666666667,
+    "confidence": 0.92,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 32.4903666666667
+  },
+  {
+    "text": "customers.",
+    "startTime": 32.4903666666667,
+    "endTime": 33.330366666666706,
+    "confidence": 1,
+    "transcriptIndex": 3,
+    "transcriptId": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+    "nextStartTime": 33.7197666666667
+  }],
+  "speaker": 1,
+  "id": "3b0f01a5-c650-4bd6-ba75-0c8ecff98cef",
+  "clipName": "Dhiraj",
+  "startTime": 18.490366666666702,
+  "endTime": 33.330366666666706,
+  "disabled": true
+},
+{
+  "words": [
+  {
+    "text": "We",
+    "startTime": 33.7197666666667,
+    "endTime": 33.8697666666667,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 33.8697666666667
+  },
+  {
+    "text": "work",
+    "startTime": 33.8697666666667,
+    "endTime": 34.0797666666667,
+    "confidence": 0.68,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 34.0797666666667
+  },
+  {
+    "text": "with",
+    "startTime": 34.0797666666667,
+    "endTime": 34.1997666666667,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 34.1997666666667
+  },
+  {
+    "text": "accounts",
+    "startTime": 34.1997666666667,
+    "endTime": 34.529766666666696,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 34.5297666666667
+  },
+  {
+    "text": "that",
+    "startTime": 34.5297666666667,
+    "endTime": 34.6497666666667,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 34.6497666666667
+  },
+  {
+    "text": "are",
+    "startTime": 34.6497666666667,
+    "endTime": 34.7397666666667,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 34.7397666666667
+  },
+  {
+    "text": "leaders",
+    "startTime": 34.7397666666667,
+    "endTime": 35.1597666666667,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 35.1597666666667
+  },
+  {
+    "text": "in",
+    "startTime": 35.1597666666667,
+    "endTime": 35.2497666666667,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 35.2497666666667
+  },
+  {
+    "text": "their",
+    "startTime": 35.2497666666667,
+    "endTime": 35.3397666666667,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 35.3397666666667
+  },
+  {
+    "text": "respective",
+    "startTime": 35.3397666666667,
+    "endTime": 35.849766666666696,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 35.8497666666667
+  },
+  {
+    "text": "fields.",
+    "startTime": 35.8497666666667,
+    "endTime": 36.299766666666706,
+    "confidence": 1,
+    "transcriptIndex": 4,
+    "transcriptId": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+    "nextStartTime": 36.6597666666667
+  }],
+  "speaker": 2,
+  "id": "f85dacf8-819c-4516-8d84-2ba7054220c8",
+  "clipName": "Jason",
+  "startTime": 33.7197666666667,
+  "endTime": 36.299766666666706
+},
+{
+  "words": [
+  {
+    "text": "For",
+    "startTime": 36.6597666666667,
+    "endTime": 36.8697666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 36.8697666666667
+  },
+  {
+    "text": "example",
+    "startTime": 36.8697666666667,
+    "endTime": 37.3797666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 37.4097666666667
+  },
+  {
+    "text": "the",
+    "startTime": 37.4097666666667,
+    "endTime": 37.489766666666696,
+    "confidence": 0.86,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 37.4997666666667
+  },
+  {
+    "text": "leading",
+    "startTime": 37.4997666666667,
+    "endTime": 37.8297666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 37.8297666666667
+  },
+  {
+    "text": "global",
+    "startTime": 37.8297666666667,
+    "endTime": 38.1897666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 38.1897666666667
+  },
+  {
+    "text": "consumer",
+    "startTime": 38.1897666666667,
+    "endTime": 38.6097666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 38.6097666666667
+  },
+  {
+    "text": "electronics",
+    "startTime": 38.6097666666667,
+    "endTime": 39.239766666666696,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 39.239766666666696
+  },
+  {
+    "text": "company",
+    "startTime": 39.239766666666696,
+    "endTime": 39.749766666666694,
+    "confidence": 0.99,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 39.989766666666696
+  },
+  {
+    "text": "social",
+    "startTime": 39.989766666666696,
+    "endTime": 40.3797666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 40.3797666666667
+  },
+  {
+    "text": "media",
+    "startTime": 40.3797666666667,
+    "endTime": 40.679766666666694,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 40.6797666666667
+  },
+  {
+    "text": "site",
+    "startTime": 40.6797666666667,
+    "endTime": 40.949766666666704,
+    "confidence": 0.96,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 41.2597666666667
+  },
+  {
+    "text": "cable",
+    "startTime": 41.2597666666667,
+    "endTime": 41.8097666666667,
+    "confidence": 0.84,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 41.809766666666704
+  },
+  {
+    "text": "and",
+    "startTime": 41.809766666666704,
+    "endTime": 41.9597666666667,
+    "confidence": 0.62,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 41.9797666666667
+  },
+  {
+    "text": "media",
+    "startTime": 41.9797666666667,
+    "endTime": 42.2697666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 42.2697666666667
+  },
+  {
+    "text": "provider",
+    "startTime": 42.2697666666667,
+    "endTime": 42.8397666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 43.0497666666667
+  },
+  {
+    "text": "and",
+    "startTime": 43.0497666666667,
+    "endTime": 43.1397666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 43.1397666666667
+  },
+  {
+    "text": "even",
+    "startTime": 43.1397666666667,
+    "endTime": 43.3597666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 43.3597666666667
+  },
+  {
+    "text": "the",
+    "startTime": 43.3597666666667,
+    "endTime": 43.4097666666667,
+    "confidence": 0.59,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 43.4097666666667
+  },
+  {
+    "text": "leading",
+    "startTime": 43.4097666666667,
+    "endTime": 43.7697666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 43.7697666666667
+  },
+  {
+    "text": "consumer",
+    "startTime": 43.7697666666667,
+    "endTime": 44.1297666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 44.1297666666667
+  },
+  {
+    "text": "package",
+    "startTime": 44.1297666666667,
+    "endTime": 44.5197666666667,
+    "confidence": 0.81,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 44.5197666666667
+  },
+  {
+    "text": "goods",
+    "startTime": 44.5197666666667,
+    "endTime": 44.8797666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 44.8797666666667
+  },
+  {
+    "text": "company",
+    "startTime": 44.8797666666667,
+    "endTime": 45.3297666666667,
+    "confidence": 1,
+    "transcriptIndex": 5,
+    "transcriptId": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+    "nextStartTime": 46.5
+  }],
+  "speaker": 2,
+  "id": "0605e274-45fe-43c8-9acb-5062c6a4a201",
+  "clipName": "Jason",
+  "startTime": 36.6597666666667,
+  "endTime": 45.3297666666667
+},
+{
+  "words": [
+  {
+    "text": "at",
+    "startTime": 46.5,
+    "endTime": 46.64,
+    "confidence": 0.78,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 46.65
+  },
+  {
+    "text": "meme's",
+    "startTime": 46.65,
+    "endTime": 46.89,
+    "confidence": 0.81,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 46.9
+  },
+  {
+    "text": "sequal",
+    "startTime": 46.9,
+    "endTime": 47.339999999999996,
+    "confidence": 0.91,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 47.339999999999996
+  },
+  {
+    "text": "we're",
+    "startTime": 47.339999999999996,
+    "endTime": 47.489999999999995,
+    "confidence": 0.61,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 47.49
+  },
+  {
+    "text": "looking",
+    "startTime": 47.49,
+    "endTime": 47.85,
+    "confidence": 1,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 47.85
+  },
+  {
+    "text": "for",
+    "startTime": 47.85,
+    "endTime": 48.03,
+    "confidence": 1,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 48.03
+  },
+  {
+    "text": "team",
+    "startTime": 48.03,
+    "endTime": 48.3,
+    "confidence": 1,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 48.3
+  },
+  {
+    "text": "members",
+    "startTime": 48.3,
+    "endTime": 48.72,
+    "confidence": 1,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 48.72
+  },
+  {
+    "text": "that",
+    "startTime": 48.72,
+    "endTime": 48.87,
+    "confidence": 1,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 48.87
+  },
+  {
+    "text": "enjoy",
+    "startTime": 48.87,
+    "endTime": 49.26,
+    "confidence": 0.96,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 49.26
+  },
+  {
+    "text": "selling",
+    "startTime": 49.26,
+    "endTime": 49.68,
+    "confidence": 1,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 49.68
+  },
+  {
+    "text": "disruptive",
+    "startTime": 49.68,
+    "endTime": 50.31,
+    "confidence": 1,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 50.339999999999996
+  },
+  {
+    "text": "technology.",
+    "startTime": 50.339999999999996,
+    "endTime": 51.18,
+    "confidence": 1,
+    "transcriptIndex": 6,
+    "transcriptId": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+    "nextStartTime": 51.66
+  }],
+  "speaker": 2,
+  "id": "13ee161f-3c91-4f98-ad17-9bce1d16e625",
+  "clipName": "Zac",
+  "startTime": 46.5,
+  "endTime": 51.18
+},
+{
+  "words": [
+  {
+    "text": "The",
+    "startTime": 51.66,
+    "endTime": 51.87,
+    "confidence": 0.98,
+    "transcriptIndex": 7,
+    "transcriptId": "4367f382-f32d-43eb-8ca2-3b484325ded0",
+    "nextStartTime": 51.87
+  }],
+  "speaker": 3,
+  "id": "4367f382-f32d-43eb-8ca2-3b484325ded0",
+  "clipName": "Zac",
+  "startTime": 51.66,
+  "endTime": 55.74
+},
+{
+  "words": [
+  {
+    "text": "So",
+    "startTime": 55.769999999999996,
+    "endTime": 55.919999999999995,
+    "confidence": 1,
+    "transcriptIndex": 8,
+    "transcriptId": "1770600a-c7db-47b6-a69d-941fd3e26ce7",
+    "nextStartTime": 55.92
+  },
+  {
+    "text": "we",
+    "startTime": 55.92,
+    "endTime": 56.07,
+    "confidence": 1,
+    "transcriptIndex": 8,
+    "transcriptId": "1770600a-c7db-47b6-a69d-941fd3e26ce7",
+    "nextStartTime": 56.07
+  }],
+  "speaker": 3,
+  "id": "1770600a-c7db-47b6-a69d-941fd3e26ce7",
+  "clipName": "Zac",
+  "startTime": 55.769999999999996,
+  "endTime": 60.919999999999995
+}]

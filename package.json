@@ -1,0 +1,42 @@
+{
+  "name": "PProPanel",
+  "version": "1.0.0",
+  "description": "==============================",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start-server": "chmod +x start.sh && ./start.sh",
+    "start-js": "watchify index.js -o bundle.js -t [ babelify --presets [ env ] --plugins [ transform-object-rest-spread ]]",
+    "start": "npm-run-all -l -p start-server start-js",
+    "build": "browserify index.js -o bundle.js -t [ babelify --presets [ env ] --plugins [ transform-object-rest-spread ]]"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "path-parse": "^1.0.5",
+    "uuid": "^3.2.1",
+    "xhr-request": "^1.1.0"
+  },
+  "prettier": {
+    "useTabs": false,
+    "bracketSpacing": true,
+    "tabWidth": 1,
+    "printWidth": 90,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "jsxBracketSameLine": false,
+    "parser": "babylon",
+    "semi": true
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
+    "npm-run-all": "^4.1.2",
+    "watchify": "^3.11.0"
+  }
+}

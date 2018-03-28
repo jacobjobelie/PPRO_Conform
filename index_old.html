@@ -1,0 +1,1210 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <script src="./uuid.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
+  <script type="text/javascript" src="./promise.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+  <script src="./digitalanarchy.helpers.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.6.0/async.min.js"></script>
+  <script src="./ext.js"></script>
+  <script src="./host.js"></script>
+  <script src="./lib/CSInterface.js"></script>
+  <script src="./lib/jquery-1.9.1.js"></script>
+  <script src="./lib/Vulcan.js"></script>
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+  function quoteString(s) {
+    // From json2:
+    const escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+    const meta = { // table of character substitutions
+      '\b': '\\b',
+      '\t': '\\t',
+      '\n': '\\n',
+      '\f': '\\f',
+      '\r': '\\r',
+      '\\': '\\\\',
+      '"': '\\"'
+    };
+    // If the string contains no control characters, no quote characters, and no
+    // backslash characters, then we can safely slap some quotes around it.
+    // Otherwise we must also replace the offending characters with safe escape
+    // sequences.
+    escapable.lastIndex = 0;
+    return escapable.test(s) ? '"' + s.replace(escapable, function(a) {
+      const c = meta[a];
+      return typeof c === 'string' ?
+        c :
+        '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+    }) + '"' : '"' + s + '"';
+  }
+
+
+  if (Array.prototype.map === undefined) {
+    Array.prototype.map = function(fn) {
+      var rv = [];
+      for (var i = 0, l = this.length; i < l; i++)
+        rv.push(fn(this[i]));
+      return rv;
+    };
+  }
+
+  $(document).ready(function() {
+
+    function makeEvalCommand(name, args) {
+      var argStrings = args.map(function(a) {
+        return (typeof a === 'string') ? quoteString(a) : ('' + a);
+      });
+      return name + '(' + argStrings + ')';
+    }
+
+    function evalFunction(name, args) {
+      return makeEvalCommand(name, args);
+    }
+
+    $("#btn_PPRO_23").on("click", function(e) {
+      console.log('getTree!');
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.getTree()', function(res) {
+        console.log(JSON.stringify(res));
+        console.log(JSON.parse(res));
+        console.log('Successfully created folders!');
+      });
+    });
+
+    function getSequnceMetadata(id, name, cb) {
+      var csInterface = new CSInterface();
+      console.log(id, name);
+      return csInterface.evalScript(
+        '$._PPP_.getSequenceMetadata("' + id + '","' + name + '")',
+        cb);
+    }
+
+    $("#btn_PPRO_24").on("click", function(e) {
+      console.log('get sequences');
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.getSequences()', function(res) {
+        var data = JSON.parse(res);
+        console.log(data);
+        getSequnceMetadata(data[0].sequenceID, data[0].name, function(res) {
+          console.log(res);
+        })
+      });
+    });
+
+    $("#btn_PPRO_25").on("click", function(e) {
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.openInSourceMonitor("michael-whales.MOV")', function(res) {
+        console.log(res);
+        /*getSequnceMetadata(data[0].sequenceID, data[0].name, function(res){
+          console.log(res);
+        })*/
+      });
+    });
+
+    // For functions which require interaction at the JavaScript level, we provide these JQuery-based
+    // handlers, instead of directly invoking ExtendScript .This givs the JavaScript layer a chance
+    // to pass data into the ExtendScript layer, and process the results.
+
+    $("#copypresets").on("click", function(e) {
+      e.preventDefault();
+
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      csInterface.evalScript('$._PPP_.getUserName()', myUserNameFunction);
+
+      if (OSVersion) {
+
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var initPath = 'C:\\Users\\' + username.innerHTML;
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var initPath = '/Users/' + username.innerHTML;
+          var sep = '/';
+        }
+
+        path = path + sep + 'payloads' + sep + 'Effect\ Presets\ and\ Custom\ Items.prfpset';
+
+        var readResult = window.cep.fs.readFile(path);
+
+        if (0 == readResult.err) {
+
+          // We build a path to the preset, based on the OS user's name.
+
+          var addOutPath = '/Documents/Adobe/Premiere\ Pro/12.0/Profile-' + username.innerHTML + '/Effect\ Presets\ and\ Custom\ Items.prfpset';
+          var fullOutPath = initPath + addOutPath;
+          var writeResult = window.cep.fs.writeFile(fullOutPath, readResult.data);
+
+          if (0 == writeResult.err) {
+            alert("Successfully copied effect presets from panel to user's configuration."); //result.data is file content
+          } else {
+            alert("Failed to copy effect presets.");
+          }
+        }
+      }
+    });
+
+    $("#toggleproxy").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.toggleProxyState()', mySetProxyFunction);
+      csInterface.evalScript('$._PPP_.getSequenceProxySetting()', myGetProxyFunction);
+    });
+
+    $("#checkforums").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      csInterface.openURLInDefaultBrowser("https://forums.adobe.com/community/premiere/sdk");
+    });
+
+    $("#openfolder").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+          window.cep.process.createProcess('C:\\Windows\\explorer.exe', path);
+        } else {
+          window.cep.process.createProcess('/usr/bin/open', path);
+        }
+      }
+    });
+
+    $("#readAPIdocs").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+
+      var path = "file:///Library/Application Support/Adobe/CEP/extensions/PProPanel/payloads/api_doc.html";
+
+      if (OSVersion.indexOf("Windows") >= 0) {
+        var path = "file:///C:/Program%20Files%20(x86)/Common%20Files/Adobe/CEP/extensions/PProPanel/payloads/api_doc.html"
+      }
+      csInterface.openURLInDefaultBrowser(path);
+    });
+
+    $("#newseqfrompreset").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'PProPanel.sqpreset';
+
+        var pre = '$._PPP_.createSequenceFromPreset(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    $("#installationhelp").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = "file://" + path;
+        path = path + sep + 'payloads' + sep + 'Installing_Extensions.html';
+
+        csInterface.openURLInDefaultBrowser(path);
+      }
+    });
+
+    $("#renderusingdefaultpreset").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'example.epr';
+
+        var pre = '$._PPP_.render(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    $("#transcodeexternal").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'example.epr';
+
+        var pre = '$._PPP_.transcodeExternal(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    $("#ingest").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'example.epr';
+
+        var pre = '$._PPP_.ingestFiles(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    $("#transcodeusingdefaultpreset").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'example.epr';
+
+        var pre = '$._PPP_.transcode(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    /*************
+        CONFORM
+    *************/
+    var CONFORM_TIMECODES = [{ in: 1,
+      out: 5,
+    }, { in: 6,
+      out: 9,
+    }]
+
+    const request = async() => {
+      const response = await fetch('./output.json')
+      const json = await response.json();
+      return json
+    }
+
+    $("#conform").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.initXMP()', function(rootItems) {
+        csInterface.evalScript('$._PPP_.getAllRootItemMedia()', function(rootItems) {
+          var parsed = JSON.parse(rootItems);
+          var treePath = parsed[1].treePath;
+          window.evalFunction('$._PPP_.openInSourceMonitor', [treePath])
+            .then(function(res) {
+              console.log("openInSourceMonitor", treePath);
+
+              window.evalFunction('$._PPP_.getClipMediaStartFromTreePath', [treePath])
+                .then(function(clipData) {
+
+                  window.evalFunctionBool('$._PPP_.setClipInOutPoints', [treePath, "00:00:00:16", "00:20:20:16"])
+                    .then(function(res) {
+                      var clipDataJson = JSON.parse(clipData);
+                      /* var tc = window.DigitalAnarchy.Timecode.fromTimecode(clipDataJson.startTimecode, clipDataJson);*/
+                      const seqName = 'testName'
+                      const binName = 'newBin'
+                      const seqID = uuidv4()
+                      // window.evalFunction('$._PPP_.addSubClip', [])
+
+                      // PRINT A FUNCTION
+                      window.evalFunction('$._PPP_.printFunction', [
+                        'app', 'project rootItem', 'createBin'
+                      ]).then(function(str) {
+                        console.log(str);
+                      })
+
+                      window.evalFunction('$._PPP_.newBin', [
+                        binName,
+                        true
+                      ]).then(function(str) {
+                        console.log(str);
+                      })
+
+                      window.evalFunction('$._PPP_.createSequence', [seqName, seqID, true, binName])
+                        .then(function() {
+
+                          window.evalFunction('$._PPP_.setActiveSequence', [seqID, true])
+                            .then(function() {
+
+                              /*const clipJson = await request()
+
+                              const clipNames = clipJson.map(function(clip) {
+                                return clip.clipName
+                              })*/
+
+                              /* const clipItems = await Promise.all(clipNames.map(function(clipName) {
+                                 return window.evalFunctionJSON('$._PPP_.getClipFromClipName', [clipName])
+                               }))
+
+                               console.log(clipItems);*/
+
+                              /*CONFORM_TIMECODES.forEach(function(timecode, i) {
+                                window.evalFunctionJSON('$._PPP_.createSubClipFromTreePath', [treePath, i + "_name", timecode.in, timecode.out, binName, true])
+                                  .then(function(res) {
+                                    console.log(res);
+                                    console.log("herer");
+                                  })
+                              })*/
+                              /* window.evalFunction('$._PPP_.insertOrAppend', [])
+                                 .then(function() {
+                                   console.log("herer");
+                                 })*/
+                            })
+
+                        })
+                    })
+
+                })
+            })
+        });
+      });
+    });
+
+
+    /*window.evalFunction('$._PPP_.findClipByTreePath', [treePath])
+                  .then(function(clips){
+                    console.log(JSON.parse(clips));
+                  })
+
+                 */
+    $("#conform2").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.initXMP()', function() {
+        csInterface.evalScript('$._PPP_.getAllRootItemMedia()', function(rootItems) {
+          var parsed = JSON.parse(rootItems);
+          var treePath = parsed[1].treePath;
+
+          const seqName = 'testName'
+          const binName = 'newBin'
+          const seqID = uuidv4()
+
+          window.evalFunction('$._PPP_.newBin', [
+            binName,
+            true
+          ]).then(function(str) {
+            console.log(str);
+          })
+          window.evalFunction('$._PPP_.openInSourceMonitor', [treePath])
+            .then(function(res) {
+              console.log("openInSourceMonitor", treePath);
+
+              window.evalFunctionBool('$._PPP_.setClipInOutPoints', [treePath, "00:00:00:16", "00:00:10:16"])
+
+
+              window.evalFunctionJSON('$._PPP_.insertClipFromSourceMonitor', [])
+                .then(function(res) {
+                  console.log(res);
+                })
+              /* window.evalFunctionJSON('$._PPP_.insertClipByTreePath', [treePath, 1, 3])
+                 .then(function(res) {
+                   console.log(res);
+                 })*/
+              /* window.evalFunction('$._PPP_.createSequence', [seqName, seqID, true, binName])
+                 .then(function() {
+
+                   window.evalFunction('$._PPP_.setActiveSequence', [seqID, true])
+                     .then(function() {
+
+                     })
+                 })*/
+            });
+        });
+      });
+    });
+
+    $("#conform3").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.initXMP()', function() {
+        csInterface.evalScript('$._PPP_.getAllRootItemMedia()', function(rootItems) {
+          var parsed = JSON.parse(rootItems);
+          var treePath = parsed[1].treePath;
+
+          const seqName = 'testName'
+          const binName = 'newBin'
+          const seqID = uuidv4()
+
+          window.evalFunction('$._PPP_.createSequence', [seqName, seqID, true, binName])
+            .then(function() {
+              window.evalFunction('$._PPP_.addClipToSequenceTimeline', [treePath, "1.23", "15.0"]).then(function() {
+
+              })
+            })
+        });
+      });
+    });
+  });
+  </script>
+</head>
+
+<body onLoad="onLoaded()">
+  <a href="javascript:history.go(0)">Refresh panel</a>
+  <p id="username">[uninitialized]</p>
+  <p id="version_string">[uninitialized]</p>
+  <p id="active_seq">[uninitialized]</p>
+  <p id="proxies_on">Proxies enabled for sequence: </p>
+  <div>
+    <h2>System</h2></div>
+  <div id="section1" class="sectionID">
+    <button id="conform">CONFORM</button>
+    <button id="conform2">CONFORM ENTIRE CLIPS</button>
+    <button id="conform3">CONFORM SOURCE</button>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <button class="controlBg textStyle" id="btn_PPRO33" onClick="evalScript('$._PPP_.closeFrontSourceClip()')">Close front-most Source monitor clip</button>
+    <button class="controlBg textStyle" id="btn_PPRO35" onClick="evalScript('$._PPP_.closeAllClipsInSourceMonitor()')">Close all clips in Source monitor</button>
+    <button id="openfolder">Open PProPanel's payloads folder</button>
+    <button class="controlBg textStyle" id="btn_PPRO7" onClick="evalScript('$._PPP_.pokeAnywhere()')">Poke Anywhere</button>
+    <button id="checkforums">Check SDK Forums</button>
+    <button id="readAPIdocs">Read API documentation</button>
+    <button id="installationhelp">Explain how extensions get installed</button>
+    <button id="copypresets">Copy Presets</button>
+    <button class="controlBg textStyle" id="btn_PPRO18" onClick="evalScript('$._PPP_.getnumAEProjectItems()')">AE project item count</button>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+  </div>
+  <div>
+    <h2>Import and Create</h2></div>
+  <div id="section2" class="sectionID">
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <button id="ingest">Ingest files, create proxies</button>
+    <button class="controlBg textStyle" id="btn_PPRO2" onClick="evalScript('$._PPP_.createSequence()')">Create Sequence</button>
+    <button class="controlBg textStyle" id="btn_PPRO37" onClick="evalScript('$._PPP_.importComps()')">Import Composition(s) from AE project</button>
+    <button id="newseqfrompreset">Create Sequence From Preset</button>
+    <button class="controlBg textStyle" id="btn_PPRO3" onClick="evalScript('$._PPP_.openProject()')">Open different project</button>
+    <button class="controlBg textStyle" id="btn_PPRO5" onClick="evalScript('$._PPP_.importFiles()')">Import Files</button>
+    <button class="controlBg textStyle" id="btn_PPRO8" onClick="evalScript('$._PPP_.openInSource()')">Open in Source Monitor...</button>
+    <button class="controlBg textStyle" id="btn_PPRO19" onClick="evalScript('$._PPP_.updateEventPanel()')">Update event panel</button>
+    <button class="controlBg textStyle" id="btn_PPRO23" onClick="evalScript('$._PPP_.setScratchDisk()')">Set scratch disk path</button>
+    <button class="controlBg textStyle" id="btn_PPRO24" onClick="evalScript('$._PPP_.setProxiesON()')">Add proxy to first projItem</button>
+    <button class="controlBg textStyle" id="btn_PPRO25" onClick="evalScript('$._PPP_.clearCache()')">Clear media cache</button>
+    <p> </p>
+    <p> </p>
+    <div id="dragthing" draggable="true" ondragstart="dragHandler(event)">Drag and drop import</div>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+  </div>
+  <div>
+    <h2>Metadata and Project manipulation</h2></div>
+  <div id="section3" class="sectionID">
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <button id="toggleproxy">Toggle proxies in active sequence</button>
+    <button class="controlBg textStyle" id="btn_PPRO9" onClick="evalScript('$._PPP_.replaceMedia()')">Replace media...</button>
+    <button class="controlBg textStyle" id="btn_PPRO10" onClick="evalScript('$._PPP_.createSequenceMarkers()')">Add sequence markers</button>
+    <button class="controlBg textStyle" id="btn_PPRO16" onClick="evalScript('$._PPP_.addClipMarkers()')">Add clip markers</button>
+    <button class="controlBg textStyle" id="btn_PPRO17" onClick="evalScript('$._PPP_.updatePAR()')">Update PAR</button>
+    <button class="controlBg textStyle" id="btn_PPRO11" onClick="evalScript('$._PPP_.mungeXMP()')">Manipulate XMP</button>
+    <button class="controlBg textStyle" id="btn_PPRO14" onClick="evalScript('$._PPP_.updateGrowingFile()')">Update growing file</button>
+    <button class="controlBg textStyle" id="btn_PPRO15" onClick="evalScript('$._PPP_.modifyProjectMetadata()')">Modify project metadata</button>
+    <p> </p>
+    <button class="controlBg textStyle" id="btn_PPRO27" onClick="evalScript('$._PPP_.randomizeSequenceSelection()')">Randomize selection</button>
+    <button class="controlBg textStyle" id="btn_PPRO28" onClick="evalScript('$._PPP_.muteFun()')">Mute fun!</button>
+    <button class="controlBg textStyle" id="btn_PPRO29" onClick="evalScript('$._PPP_.onPlayWithKeyframes()')">Manipulate keyframes</button>
+    <button class="controlBg textStyle" id="btn_PPRO30" onClick="evalScript('$._PPP_.insertOrAppend()')">insert or append to active sequence</button>
+    <button class="controlBg textStyle" id="btn_PPRO31" onClick="evalScript('$._PPP_.overWrite()')">overwrite at CTI</button>
+    <button class="controlBg textStyle" id="btn_PPRO36" onClick="evalScript('$._PPP_.changeLabel()')">Label first projectItem</button>
+    <button class="controlBg textStyle" id="btn_PPRO21" onClick="evalScript('$._PPP_.addSubClip()')">Create subclip</button>
+    <button class="controlBg textStyle" id="btn_PPRO22" onClick="evalScript('$._PPP_.children')">Show children</button>
+    <button class="controlBg textStyle" id="btn_PPRO_23">Show treePath</button>
+    <button class="controlBg textStyle" id="btn_PPRO_24">Get sequences</button>
+    <button class="controlBg textStyle" id="btn_PPRO_25">Get File Metadata</button>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+  </div>
+  <div>
+    <h2>Export</h2></div>
+  <div id="section4" class="sectionID">
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <button id="transcodeusingdefaultpreset">Transcode first project item</button>
+    <button id="transcodeexternal">Transcode external file</button>
+    <button class="controlBg textStyle" id="btn_PPRO20" onClick="evalScript('$._PPP_.dumpXMPFromAllProjectItems()')">Dump XMP from all items</button>
+    <button class="controlBg textStyle" id="btn_PPRO34" onClick="evalScript('$._PPP_.saveProjectAs()')">Save project as...</button>
+    <button class="controlBg textStyle" id="btn_PPRO4" onClick="evalScript('$._PPP_.saveProject()')">Save project</button>
+    <button class="controlBg textStyle" id="btn_PPRO1" onClick="evalScript('$._PPP_.render()')">Render active sequence using AME</button>
+    <button class="controlBg textStyle" id="btn_PPRO13" onClick="evalScript('$._PPP_.exportCurrentFrameAsPNG()')">Export sequence frame</button>
+    <button class="controlBg textStyle" id="btn_PPRO26" onClick="evalScript('$._PPP_.exportFramesForMarkers()')">Export frames for markers</button>
+    <button class="controlBg textStyle" id="btn_PPRO12" onClick="evalScript('$._PPP_.exportSequenceAsPrProj()')">New project from sequence</button>
+    <button class="controlBg textStyle" id="btn_PPRO13" onClick="evalScript('$._PPP_.exportCurrentFrameAsPNG()')">Export sequence frame</button>
+    <button class="controlBg textStyle" id="btn_PPRO6" onClick="evalScript('$._PPP_.exportFCPXML()')">Export FCP XML</button>
+    <button class="controlBg textStyle" id="btn_PPRO20" onClick="evalScript('$._PPP_.dumpXMPFromAllProjectItems()')">Dump XMP from all items</button>
+    <button class="controlBg textStyle" id="btn_PPRO22" onClick="evalScript('$._PPP_.exportAAF()')">Export sequence to AAF</button>
+    <button id="renderusingdefaultpreset">Render w/custom preset</button>
+    <button class="controlBg textStyle" id="btn_PPRO32" onClick="evalScript('$._PPP_.getProjectPanelMeta()')">Get Project Panel Metadata</button>
+    <button class="controlBg textStyle" id="btn_PPRO32" onClick="evalScript('$._PPP_.setProjectPanelMeta()')">Set Project Panel Metadata</button>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+  </div>
+</body>
+<script>
+document.body.onbeforeunload = function() {
+  var csInterface = new CSInterface();
+  var OSVersion = csInterface.getOSInformation();
+  var appVersion = csInterface.hostEnvironment.appVersion;
+  var versionAsFloat = parseFloat(appVersion);
+
+  if (versionAsFloat < 10.3) {
+    var path = "file:///Library/Application Support/Adobe/CEP/extensions/PProPanel/payloads/onbeforeunload.html";
+
+    if (OSVersion.indexOf("Windows") >= 0) {
+      path = "file:///C:/Program%20Files%20(x86)/Common%20Files/Adobe/CEP/extensions/PProPanel/payloads/onbeforeunload.html"
+    }
+    csInterface.openURLInDefaultBrowser(path);
+  }
+};
+
+var createFolders = function() {
+  var csInterface = new CSInterface();
+  csInterface.callScript(
+    '_PPP_',
+    'createDeepFolderStructure',
+    function(res) {
+      console.log('Successfully created folders!');
+    },
+    function(err) {
+      console.error(err);
+      alert(err.message);
+    }, ['This', 'is', 'a', 'very', 'deep', 'folder', 'structure'], // 1st argument
+    6 // 2nd argument
+  );
+};
+</script>
+</script>
+
+</html>
+=======
+
+<head>
+  <meta charset="utf-8">
+  <script src="./ext.js"></script>
+  <script src="./lib/CSInterface.js"></script>
+  <script src="./lib/jquery-1.9.1.js"></script>
+  <script src="./lib/Vulcan.js"></script>
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+  function quoteString(s) {
+    // From json2:
+    const escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+    const meta = { // table of character substitutions
+      '\b': '\\b',
+      '\t': '\\t',
+      '\n': '\\n',
+      '\f': '\\f',
+      '\r': '\\r',
+      '\\': '\\\\',
+      '"': '\\"'
+    };
+    // If the string contains no control characters, no quote characters, and no
+    // backslash characters, then we can safely slap some quotes around it.
+    // Otherwise we must also replace the offending characters with safe escape
+    // sequences.
+    escapable.lastIndex = 0;
+    return escapable.test(s) ? '"' + s.replace(escapable, function(a) {
+      const c = meta[a];
+      return typeof c === 'string' ?
+        c :
+        '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+    }) + '"' : '"' + s + '"';
+  }
+
+
+  if (Array.prototype.map === undefined) {
+    Array.prototype.map = function(fn) {
+      var rv = [];
+      for (var i = 0, l = this.length; i < l; i++)
+        rv.push(fn(this[i]));
+      return rv;
+    };
+  }
+
+  $(document).ready(function() {
+
+    function makeEvalCommand(name, args) {
+      var argStrings = args.map(function(a) {
+        return (typeof a === 'string') ? quoteString(a) : ('' + a);
+      });
+      return name + '(' + argStrings + ')';
+    }
+
+    function evalFunction(name, args) {
+      return makeEvalCommand(name, args);
+    }
+
+    $("#btn_PPRO_23").on("click", function(e) {
+      console.log('getTree!');
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.getTree()', function(res) {
+        console.log(JSON.stringify(res));
+        console.log(JSON.parse(res));
+        console.log('Successfully created folders!');
+      });
+    });
+
+    function getSequnceMetadata(id, name, cb) {
+      var csInterface = new CSInterface();
+      console.log(id, name);
+      return csInterface.evalScript(
+        '$._PPP_.getSequenceMetadata("' + id + '","' + name + '")',
+        cb);
+    }
+
+    $("#btn_PPRO_24").on("click", function(e) {
+      console.log('get sequences');
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.getSequences()', function(res) {
+        var data = JSON.parse(res);
+        console.log(data);
+        getSequnceMetadata(data[0].sequenceID, data[0].name, function(res) {
+          console.log(res);
+        })
+      });
+    });
+
+    $("#btn_PPRO_25").on("click", function(e) {
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.getFileMetadata("bb")', function(res) {
+        console.log(res);
+        /*  getSequnceMetadata(data[0].sequenceID, data[0].name, function(res){
+            console.log(res);
+          })*/
+      });
+    });
+
+    // For functions which require interaction at the JavaScript level, we provide these JQuery-based
+    // handlers, instead of directly invoking ExtendScript .This givs the JavaScript layer a chance
+    // to pass data into the ExtendScript layer, and process the results.
+
+    $("#copypresets").on("click", function(e) {
+      e.preventDefault();
+
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      csInterface.evalScript('$._PPP_.getUserName()', myUserNameFunction);
+
+      if (OSVersion) {
+
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var initPath = 'C:\\Users\\' + username.innerHTML;
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var initPath = '/Users/' + username.innerHTML;
+          var sep = '/';
+        }
+
+        path = path + sep + 'payloads' + sep + 'Effect\ Presets\ and\ Custom\ Items.prfpset';
+
+        var readResult = window.cep.fs.readFile(path);
+
+        if (0 == readResult.err) {
+
+          // We build a path to the preset, based on the OS user's name.
+
+          var addOutPath = '/Documents/Adobe/Premiere\ Pro/12.0/Profile-' + username.innerHTML + '/Effect\ Presets\ and\ Custom\ Items.prfpset';
+          var fullOutPath = initPath + addOutPath;
+          var writeResult = window.cep.fs.writeFile(fullOutPath, readResult.data);
+
+          if (0 == writeResult.err) {
+            alert("Successfully copied effect presets from panel to user's configuration."); //result.data is file content
+          } else {
+            alert("Failed to copy effect presets.");
+          }
+        }
+      }
+    });
+
+    $("#toggleproxy").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      csInterface.evalScript('$._PPP_.toggleProxyState()', mySetProxyFunction);
+      csInterface.evalScript('$._PPP_.getSequenceProxySetting()', myGetProxyFunction);
+    });
+
+    $("#checkforums").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      csInterface.openURLInDefaultBrowser("https://forums.adobe.com/community/premiere/sdk");
+    });
+
+    $("#openfolder").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+          window.cep.process.createProcess('C:\\Windows\\explorer.exe', path);
+        } else {
+          window.cep.process.createProcess('/usr/bin/open', path);
+        }
+      }
+    });
+
+    $("#readAPIdocs").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+
+      var path = "file:///Library/Application Support/Adobe/CEP/extensions/PProPanel/payloads/api_doc.html";
+
+      if (OSVersion.indexOf("Windows") >= 0) {
+        var path = "file:///C:/Program%20Files%20(x86)/Common%20Files/Adobe/CEP/extensions/PProPanel/payloads/api_doc.html"
+      }
+      csInterface.openURLInDefaultBrowser(path);
+    });
+
+    $("#newseqfrompreset").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'PProPanel.sqpreset';
+
+        var pre = '$._PPP_.createSequenceFromPreset(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    $("#installationhelp").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = "file://" + path;
+        path = path + sep + 'payloads' + sep + 'Installing_Extensions.html';
+
+        csInterface.openURLInDefaultBrowser(path);
+      }
+    });
+
+    $("#renderusingdefaultpreset").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'example.epr';
+
+        var pre = '$._PPP_.render(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    $("#transcodeexternal").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'example.epr';
+
+        var pre = '$._PPP_.transcodeExternal(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    $("#ingest").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'example.epr';
+
+        var pre = '$._PPP_.ingestFiles(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+
+    $("#transcodeusingdefaultpreset").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+      var OSVersion = csInterface.getOSInformation();
+      var path = csInterface.getSystemPath(SystemPath.EXTENSION);
+
+      if (OSVersion) {
+        // The path always comes back with '/' path separators. Windows needs '\\'.
+        if (OSVersion.indexOf("Windows") >= 0) {
+          var sep = '\\\\';
+          path = path.replace(/\//g, sep);
+        } else {
+          var sep = '/';
+        }
+
+        // Build a String to pass the path to the script.
+        // (Sounds more complicated than it is.)
+
+        path = path + sep + 'payloads' + sep + 'example.epr';
+
+        var pre = '$._PPP_.transcode(\'';
+        var post = '\'';
+        var postpost = ')';
+
+        var whole_megillah = pre + path + post + postpost;
+
+        csInterface.evalScript(whole_megillah);
+      }
+    });
+  });
+  </script>
+</head>
+
+<body onLoad="onLoaded()">
+  <a href="javascript:history.go(0)">Refresh panel</a>
+  <p id="username">[uninitialized]</p>
+  <p id="version_string">[uninitialized]</p>
+  <p id="active_seq">[uninitialized]</p>
+  <p id="proxies_on">Proxies enabled for sequence: </p>
+  <div>
+    <h2>System</h2></div>
+  <div id="section1" class="sectionID">
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <button class="controlBg textStyle" id="btn_PPRO33" onClick="evalScript('$._PPP_.closeFrontSourceClip()')">Close front-most Source monitor clip</button>
+    <button class="controlBg textStyle" id="btn_PPRO35" onClick="evalScript('$._PPP_.closeAllClipsInSourceMonitor()')">Close all clips in Source monitor</button>
+    <button id="openfolder">Open PProPanel's payloads folder</button>
+    <button class="controlBg textStyle" id="btn_PPRO7" onClick="evalScript('$._PPP_.pokeAnywhere()')">Poke Anywhere</button>
+    <button id="checkforums">Check SDK Forums</button>
+    <button id="readAPIdocs">Read API documentation</button>
+    <button id="installationhelp">Explain how extensions get installed</button>
+    <button id="copypresets">Copy Presets</button>
+    <button class="controlBg textStyle" id="btn_PPRO18" onClick="evalScript('$._PPP_.getnumAEProjectItems()')">AE project item count</button>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+  </div>
+  <div>
+    <h2>Import and Create</h2></div>
+  <div id="section2" class="sectionID">
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <button id="ingest">Ingest files, create proxies</button>
+    <button class="controlBg textStyle" id="btn_PPRO2" onClick="evalScript('$._PPP_.createSequence()')">Create Sequence</button>
+    <button class="controlBg textStyle" id="btn_PPRO37" onClick="evalScript('$._PPP_.importComps()')">Import Composition(s) from AE project</button>
+    <button id="newseqfrompreset">Create Sequence From Preset</button>
+    <button class="controlBg textStyle" id="btn_PPRO3" onClick="evalScript('$._PPP_.openProject()')">Open different project</button>
+    <button class="controlBg textStyle" id="btn_PPRO5" onClick="evalScript('$._PPP_.importFiles()')">Import Files</button>
+    <button class="controlBg textStyle" id="btn_PPRO8" onClick="evalScript('$._PPP_.openInSource()')">Open in Source Monitor...</button>
+    <button class="controlBg textStyle" id="btn_PPRO19" onClick="evalScript('$._PPP_.updateEventPanel()')">Update event panel</button>
+    <button class="controlBg textStyle" id="btn_PPRO23" onClick="evalScript('$._PPP_.setScratchDisk()')">Set scratch disk path</button>
+    <button class="controlBg textStyle" id="btn_PPRO24" onClick="evalScript('$._PPP_.setProxiesON()')">Add proxy to first projItem</button>
+    <button class="controlBg textStyle" id="btn_PPRO25" onClick="evalScript('$._PPP_.clearCache()')">Clear media cache</button>
+    <p> </p>
+    <p> </p>
+    <div id="dragthing" draggable="true" ondragstart="dragHandler(event)">Drag and drop import</div>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+  </div>
+  <div>
+    <h2>Metadata and Project manipulation</h2></div>
+  <div id="section3" class="sectionID">
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <button id="toggleproxy">Toggle proxies in active sequence</button>
+    <button class="controlBg textStyle" id="btn_PPRO9" onClick="evalScript('$._PPP_.replaceMedia()')">Replace media...</button>
+    <button class="controlBg textStyle" id="btn_PPRO10" onClick="evalScript('$._PPP_.createSequenceMarkers()')">Add sequence markers</button>
+    <button class="controlBg textStyle" id="btn_PPRO16" onClick="evalScript('$._PPP_.addClipMarkers()')">Add clip markers</button>
+    <button class="controlBg textStyle" id="btn_PPRO17" onClick="evalScript('$._PPP_.updatePAR()')">Update PAR</button>
+    <button class="controlBg textStyle" id="btn_PPRO11" onClick="evalScript('$._PPP_.mungeXMP()')">Manipulate XMP</button>
+    <button class="controlBg textStyle" id="btn_PPRO14" onClick="evalScript('$._PPP_.updateGrowingFile()')">Update growing file</button>
+    <button class="controlBg textStyle" id="btn_PPRO15" onClick="evalScript('$._PPP_.modifyProjectMetadata()')">Modify project metadata</button>
+    <p> </p>
+    <button class="controlBg textStyle" id="btn_PPRO27" onClick="evalScript('$._PPP_.randomizeSequenceSelection()')">Randomize selection</button>
+    <button class="controlBg textStyle" id="btn_PPRO28" onClick="evalScript('$._PPP_.muteFun()')">Mute fun!</button>
+    <button class="controlBg textStyle" id="btn_PPRO29" onClick="evalScript('$._PPP_.onPlayWithKeyframes()')">Manipulate keyframes</button>
+    <button class="controlBg textStyle" id="btn_PPRO30" onClick="evalScript('$._PPP_.insertOrAppend()')">insert or append to active sequence</button>
+    <button class="controlBg textStyle" id="btn_PPRO31" onClick="evalScript('$._PPP_.overWrite()')">overwrite at CTI</button>
+    <button class="controlBg textStyle" id="btn_PPRO36" onClick="evalScript('$._PPP_.changeLabel()')">Label first projectItem</button>
+    <button class="controlBg textStyle" id="btn_PPRO21" onClick="evalScript('$._PPP_.addSubClip()')">Create subclip</button>
+    <button class="controlBg textStyle" id="btn_PPRO22" onClick="evalScript('$._PPP_.children')">Show children</button>
+    <button class="controlBg textStyle" id="btn_PPRO_23">Show treePath</button>
+    <button class="controlBg textStyle" id="btn_PPRO_24">Get sequences</button>
+    <button class="controlBg textStyle" id="btn_PPRO_25">Get File Metadata</button>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+  </div>
+  <div>
+    <h2>Export</h2></div>
+  <div id="section4" class="sectionID">
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <button id="transcodeusingdefaultpreset">Transcode first project item</button>
+    <button id="transcodeexternal">Transcode external file</button>
+    <button class="controlBg textStyle" id="btn_PPRO20" onClick="evalScript('$._PPP_.dumpXMPFromAllProjectItems()')">Dump XMP from all items</button>
+    <button class="controlBg textStyle" id="btn_PPRO34" onClick="evalScript('$._PPP_.saveProjectAs()')">Save project as...</button>
+    <button class="controlBg textStyle" id="btn_PPRO4" onClick="evalScript('$._PPP_.saveProject()')">Save project</button>
+    <button class="controlBg textStyle" id="btn_PPRO1" onClick="evalScript('$._PPP_.render()')">Render active sequence using AME</button>
+    <button class="controlBg textStyle" id="btn_PPRO13" onClick="evalScript('$._PPP_.exportCurrentFrameAsPNG()')">Export sequence frame</button>
+    <button class="controlBg textStyle" id="btn_PPRO26" onClick="evalScript('$._PPP_.exportFramesForMarkers()')">Export frames for markers</button>
+    <button class="controlBg textStyle" id="btn_PPRO12" onClick="evalScript('$._PPP_.exportSequenceAsPrProj()')">New project from sequence</button>
+    <button class="controlBg textStyle" id="btn_PPRO13" onClick="evalScript('$._PPP_.exportCurrentFrameAsPNG()')">Export sequence frame</button>
+    <button class="controlBg textStyle" id="btn_PPRO6" onClick="evalScript('$._PPP_.exportFCPXML()')">Export FCP XML</button>
+    <button class="controlBg textStyle" id="btn_PPRO20" onClick="evalScript('$._PPP_.dumpXMPFromAllProjectItems()')">Dump XMP from all items</button>
+    <button class="controlBg textStyle" id="btn_PPRO22" onClick="evalScript('$._PPP_.exportAAF()')">Export sequence to AAF</button>
+    <button id="renderusingdefaultpreset">Render w/custom preset</button>
+    <button class="controlBg textStyle" id="btn_PPRO32" onClick="evalScript('$._PPP_.getProjectPanelMeta()')">Get Project Panel Metadata</button>
+    <button class="controlBg textStyle" id="btn_PPRO32" onClick="evalScript('$._PPP_.setProjectPanelMeta()')">Set Project Panel Metadata</button>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+    <p> </p>
+  </div>
+</body>
+<script>
+document.body.onbeforeunload = function() {
+  var csInterface = new CSInterface();
+  var OSVersion = csInterface.getOSInformation();
+  var appVersion = csInterface.hostEnvironment.appVersion;
+  var versionAsFloat = parseFloat(appVersion);
+
+  if (versionAsFloat < 10.3) {
+    var path = "file:///Library/Application Support/Adobe/CEP/extensions/PProPanel/payloads/onbeforeunload.html";
+
+    if (OSVersion.indexOf("Windows") >= 0) {
+      path = "file:///C:/Program%20Files%20(x86)/Common%20Files/Adobe/CEP/extensions/PProPanel/payloads/onbeforeunload.html"
+    }
+    csInterface.openURLInDefaultBrowser(path);
+  }
+};
+
+var createFolders = function() {
+  var csInterface = new CSInterface();
+  csInterface.callScript(
+    '_PPP_',
+    'createDeepFolderStructure',
+    function(res) {
+      console.log('Successfully created folders!');
+    },
+    function(err) {
+      console.error(err);
+      alert(err.message);
+    }, ['This', 'is', 'a', 'very', 'deep', 'folder', 'structure'], // 1st argument
+    6 // 2nd argument
+  );
+};
+</script>
+</script>
+
+</html>

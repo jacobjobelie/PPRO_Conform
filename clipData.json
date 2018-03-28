@@ -1,0 +1,133 @@
+[
+{
+  "group": 0,
+  "track": 0,
+  "clip": 0,
+  "mediaType": "Audio",
+  "mediaPath": "/Volumes/BaeDrive/DigitalAnarchy/_test/Alexia.mp4",
+  "clipName": "Alexia",
+  "duration":
+  {
+    "seconds": 11.0443666666667,
+    "ticks": "2805445843200"
+  },
+  "start":
+  {
+    "seconds": 0,
+    "ticks": "0"
+  },
+  "end":
+  {
+    "seconds": 11.0443666666667,
+    "ticks": "2805445843200"
+  },
+  "inPoint":
+  {
+    "seconds": 0,
+    "ticks": "0"
+  },
+  "outPoint":
+  {
+    "seconds": 11.0443666666667,
+    "ticks": "2805445843200"
+  }
+},
+{
+  "group": 0,
+  "track": 0,
+  "clip": 1,
+  "mediaType": "Audio",
+  "mediaPath": "/Volumes/BaeDrive/DigitalAnarchy/_test/Dhiraj.mp4",
+  "clipName": "Dhiraj",
+  "duration":
+  {
+    "seconds": 14.8314833333333,
+    "ticks": "3767434070400"
+  },
+  "start":
+  {
+    "seconds": 11.0443666666667,
+    "ticks": "2805445843200"
+  },
+  "end":
+  {
+    "seconds": 33.4667666666667,
+    "ticks": "8501094201600"
+  },
+  "inPoint":
+  {
+    "seconds": 7.59091666666667,
+    "ticks": "1928214288000"
+  },
+  "outPoint":
+  {
+    "seconds": 22.4224,
+    "ticks": "5695648358400"
+  }
+},
+{
+  "group": 0,
+  "track": 0,
+  "clip": 2,
+  "mediaType": "Audio",
+  "mediaPath": "/Volumes/BaeDrive/DigitalAnarchy/_test/Jason.mp4",
+  "clipName": "Jason",
+  "duration":
+  {
+    "seconds": 12.5792333333333,
+    "ticks": "3195326534400"
+  },
+  "start":
+  {
+    "seconds": 33.4667666666667,
+    "ticks": "8501094201600"
+  },
+  "end":
+  {
+    "seconds": 46.046,
+    "ticks": "11696420736000"
+  },
+  "inPoint":
+  {
+    "seconds": 0,
+    "ticks": "0"
+  },
+  "outPoint":
+  {
+    "seconds": 12.5792333333333,
+    "ticks": "3195326534400"
+  }
+},
+{
+  "group": 0,
+  "track": 0,
+  "clip": 3,
+  "mediaType": "Audio",
+  "mediaPath": "/Volumes/BaeDrive/DigitalAnarchy/_test/Zac.mp4",
+  "clipName": "Zac",
+  "duration":
+  {
+    "seconds": 15.2819333333333,
+    "ticks": "3881855577600"
+  },
+  "start":
+  {
+    "seconds": 46.046,
+    "ticks": "11696420736000"
+  },
+  "end":
+  {
+    "seconds": 61.3279333333333,
+    "ticks": "15578276313600"
+  },
+  "inPoint":
+  {
+    "seconds": 0,
+    "ticks": "0"
+  },
+  "outPoint":
+  {
+    "seconds": 15.2819333333333,
+    "ticks": "3881855577600"
+  }
+}]
