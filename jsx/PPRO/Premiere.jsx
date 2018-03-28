@@ -733,12 +733,12 @@ $._PPP_ = {
     var allSequences = this.getAllSequences();
     this.getAllRootItemMediaArray().forEach(function(child) {
       var isChildASeq = false;
-      for (var i = 0; i < allSequences.length; i++) {
-        if (allSequences[i].nodeId === child.nodeId) {
+      /*for (var i = 0; i < allSequences.length; i++) {
+        if (allSequences[i].projectItem.nodeId === child.nodeId) {
           isChildASeq = true
           break;
         }
-      }
+      }*/
       if (!!child.treePath.match(new RegExp(name, 'g')) && !isChildASeq) {
         foundChild = child;
       }

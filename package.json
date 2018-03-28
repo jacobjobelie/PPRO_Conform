@@ -8,9 +8,9 @@
   },
   "scripts": {
     "start-server": "chmod +x start.sh && ./start.sh",
-    "start-js": "watchify index.js -o bundle.js -t [ babelify --presets [ env ] --plugins [ transform-object-rest-spread ]]",
+    "start-js": "watchify index.js -o bundle.js",
     "start": "npm-run-all -l -p start-server start-js",
-    "build": "browserify index.js -o bundle.js -t [ babelify --presets [ env ] --plugins [ transform-object-rest-spread ]]"
+    "build": "browserify index.js -o bundle.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,25 @@
     "path-parse": "^1.0.5",
     "uuid": "^3.2.1",
     "xhr-request": "^1.1.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify", {
+          "presets": [
+            ["env", {
+              "targets": {
+                "browsers": ["last 2 versions", "safari >= 7"]
+              }
+            }]
+          ],
+          "plugins": [
+            "transform-object-rest-spread",
+            "transform-async-to-generator"
+          ]
+        }
+      ]
+    ]
   },
   "prettier": {
     "useTabs": false,
@@ -33,6 +52,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",

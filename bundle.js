@@ -1,42 +1,99 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
-const { v4 } = require('uuid');
-const Parse = require('path-parse');
+'use strict';
 
-const requestJSON = async function(url) {
-  const response = await fetch(url);
-  const json = await response.json();
-  return json
-};
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+var _require = require('uuid'),
+    v4 = _require.v4;
 
-const insertClip = async clip => {
-  const { treePath } = await window.evalFunctionJSON('$._PPP_.findClipByName', [
-    clip.clipName ? clip.clipName : Parse(clip.mediaPath).base,
-    true,
-  ]);
-  const inTime = clip.startTime.toFixed(3).toString()
-  const outTime = (clip.startTime + clip.duration).toFixed(3).toString()
+var Parse = require('path-parse');
 
-  console.log(treePath);
-  console.log(inTime, outTime);
-  const timeValues = await window.evalFunctionJSON('$._PPP_.extractFrameRate', [clip.clipName, true]);
-  const timecode = window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame });
+var requestJSON = function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url) {
+    var response, json;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return fetch(url);
 
-  return window.evalFunction('$._PPP_.addClipToSequenceTimeline', [
-    treePath,
-    window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),
-    window.DigitalAnarchy.Timecode.fromSeconds(outTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),
-  ]);
-};
+          case 2:
+            response = _context.sent;
+            _context.next = 5;
+            return response.json();
 
-window.InsertClips = async() => {
-  /* const response = await request('http://0.0.0.0:4433/output.json');
-   console.log(clipJson);
-   const clipNames = clipJson.map(clip => {
-     return clip.clipName;
-   });
-   const insertResponse = await Promise.all(clipJson.map(clip => insertClip(clip)));*/
-}
+          case 5:
+            json = _context.sent;
+            return _context.abrupt('return', json);
+
+          case 7:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+
+  return function requestJSON(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+var insertClip = function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(clip) {
+    var clipData, treePath, inTime, outTime;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return window.evalFunctionJSON('$._PPP_.findClipByName', [clip.clipName + '.mp4', true]);
+
+          case 2:
+            clipData = _context2.sent;
+            treePath = clipData.treePath;
+
+            console.log(clipData);
+            console.log(treePath);
+            inTime = clip.startTime.toFixed(3).toString();
+            outTime = (clip.startTime + clip.duration).toFixed(3).toString();
+
+            //const timeValues = await window.evalFunctionJSON('$._PPP_.extractFrameRate', [clip.clipName, true]);
+            /*console.log(treePath);
+            console.log(inTime, outTime);
+            console.log(timeValues);*/
+            // const timecode = window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame });
+
+            return _context2.abrupt('return', window.evalFunction('$._PPP_.addClipToSequenceTimeline', [treePath, window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: 59.7, dropFrame: false }), window.DigitalAnarchy.Timecode.fromSeconds(outTime, { frameRate: 59.7, dropFrame: false })]
+            /*window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),
+            window.DigitalAnarchy.Timecode.fromSeconds(outTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),*/
+            ));
+
+          case 9:
+          case 'end':
+            return _context2.stop();
+        }
+      }
+    }, _callee2, undefined);
+  }));
+
+  return function insertClip(_x2) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+window.InsertClips = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+  return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+        case 'end':
+          return _context3.stop();
+      }
+    }
+  }, _callee3, undefined);
+}));
 
 /*************
 *
@@ -50,45 +107,74 @@ WE NEED TO CONVERT TO CLIP IN/OUT TIMES
 
 *************/
 
-window.Conform = async() => {
-  const transcripts = await requestJSON('http://0.0.0.0:4433/output.json');
-  const clipJson = await requestJSON('http://0.0.0.0:4433/clipData.json');
-  const conformingClips = window.DigitalAnarchy.Conforming.fromJSON(transcripts, clipJson)
-  console.log(conformingClips);
-  const seqName = 'Conformed sequence';
-  const binName = 'newBin';
-  const seqID = uuidv4();
+window.Conform = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+  var transcripts, clipJson, conformingClips, presetName, seqName, binName, seqID, userName, csInterface, OSVersion, sep, v, presetPath, seqResponse, insertResponse;
+  return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.next = 2;
+          return requestJSON('http://0.0.0.0:4433/output.json');
 
-  const userName = await window.evalFunction('$._PPP_.getUserName', []);
+        case 2:
+          transcripts = _context4.sent;
+          _context4.next = 5;
+          return requestJSON('http://0.0.0.0:4433/clipData.json');
 
-  const csInterface = new CSInterface();
-  const OSVersion = csInterface.getOSInformation();
-  const sep = OSVersion.indexOf('Windows') >= 0 ? '\\' : '/';
-  const v = csInterface.hostEnvironment.appVersion.substring(0, 4)
-  var presetPath = `${csInterface.getSystemPath(SystemPath.MY_DOCUMENTS)}${sep}Adobe${sep}Premiere\ Pro${sep}${v}${sep}Profile-${userName}${sep}Settings${sep}Custom${sep}Alexia.sqpreset`;
-  // await window.evalFunction('$._PPP_.cloneSequence', [])
+        case 5:
+          clipJson = _context4.sent;
+          conformingClips = window.DigitalAnarchy.Conforming.fromJSON(transcripts, clipJson);
+          presetName = 'PProPanel';
+          seqName = 'Conformed sequence';
+          binName = 'newBin';
+          seqID = uuidv4();
+          _context4.next = 13;
+          return window.evalFunction('$._PPP_.getUserName', []);
 
-  //const rr = await window.evalFunctionJSON('$._PPP_.findClipByName', ["Alexia", true]);
-  //console.log(rr);
-  /* const seqResponse = await window.evalFunction('$._PPP_.createSequence', [
-    seqName,
-    seqID,
-    true,
-    binName,
-    true
-  ]);*/
+        case 13:
+          userName = _context4.sent;
+          csInterface = new CSInterface();
+          OSVersion = csInterface.getOSInformation();
+          sep = OSVersion.indexOf('Windows') >= 0 ? '\\' : '/';
+          v = csInterface.hostEnvironment.appVersion.substring(0, 2) + '.0';
+          presetPath = '' + csInterface.getSystemPath(SystemPath.MY_DOCUMENTS) + sep + 'Adobe' + sep + 'Premiere Pro' + sep + v + sep + 'Profile-' + userName + sep + 'Settings' + sep + 'Custom' + sep + presetName + '.sqpreset';
 
-  const seqResponse = await window.evalFunctionJSON('$._PPP_.createSequenceFromPreset', [
-    seqName,
-    presetPath,
-  ]);
-  console.log(seqResponse);
-  const insertResponse = await Promise.all(conformingClips.slice(0,2).map(clip => insertClip(clip)));
-  // clipJson.forEach(createClip);
+          console.log(presetPath);
+          // await window.evalFunction('$._PPP_.cloneSequence', [])
 
-  /*console.log(clipJson);
-  console.log(clipNames);*/
-};
+          //const rr = await window.evalFunctionJSON('$._PPP_.findClipByName', ["Alexia", true]);
+          //console.log(rr);
+          /* const seqResponse = await window.evalFunction('$._PPP_.createSequence', [
+            seqName,
+            seqID,
+            true,
+            binName,
+            true
+          ]);*/
+
+          _context4.next = 22;
+          return window.evalFunctionJSON('$._PPP_.createSequenceFromPreset', [seqName, presetPath]);
+
+        case 22:
+          seqResponse = _context4.sent;
+          _context4.next = 25;
+          return conformingClips.reduce(function (promise, clip) {
+            return promise.then(function (result) {
+              return insertClip(clip).then(Array.prototype.concat.bind(result));
+            });
+          }, Promise.resolve([]));
+
+        case 25:
+          insertResponse = _context4.sent;
+
+        case 26:
+        case 'end':
+          return _context4.stop();
+      }
+    }
+  }, _callee4, undefined);
+}));
+
 },{"path-parse":3,"uuid":4}],2:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
