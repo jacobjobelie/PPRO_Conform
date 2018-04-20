@@ -1,5 +1,6 @@
-$._ext_XMP = {
-  kPProPrivateProjectMetadataURI: 'http://ns.adobe.com/premierePrivateProjectMetaData/1.0/',
+$._ext_POWERSERACH_XMP = {
+  kPProPrivateProjectMetadataURI:
+    'http://ns.adobe.com/premierePrivateProjectMetaData/1.0/',
   schemaNS: 'http://digitalanarchy.com/xmp/Transcriptive/1.0/',
   prefix: 'transcriptive:',
   languageName: 'language',
@@ -10,7 +11,7 @@ $._ext_XMP = {
   positionField: 'TranscriptivePosition',
   positionLabel: 'TranscriptivePosition',
   emptyObject: { transcripts: [], speakers: {}, lang: 'en-US' },
-  initXMP: function () {
+  initXMP: function() {
     if (ExternalObject.AdobeXMPScript === undefined) {
       ExternalObject.AdobeXMPScript = new ExternalObject('lib:AdobeXMPScript');
       if (ExternalObject.AdobeXMPScript === undefined) {
@@ -19,7 +20,7 @@ $._ext_XMP = {
     }
     return true;
   },
-  fixTranscripts: function (transcripts) {
+  fixTranscripts: function(transcripts) {
     var next;
     var words;
     var i = transcripts.length;
@@ -46,10 +47,12 @@ $._ext_XMP = {
       }
     }
   },
-  escapeString: function (s) {
-    return s.replace(/[ \\]/g, function (x) { return '\\' + x; });
+  escapeString: function(s) {
+    return s.replace(/[ \\]/g, function(x) {
+      return '\\' + x;
+    });
   },
-  splitString: function (str) {
+  splitString: function(str) {
     var a = [];
     var elem = '';
     var s = str;
@@ -72,8 +75,9 @@ $._ext_XMP = {
     }
     return a;
   },
-  getClipMediaStart: function (sequenceJson, clipJson) {
-    var kPProPrivateProjectMetadataURI = 'http://ns.adobe.com/premierePrivateProjectMetaData/1.0/';
+  getClipMediaStart: function(sequenceJson, clipJson) {
+    var kPProPrivateProjectMetadataURI =
+      'http://ns.adobe.com/premierePrivateProjectMetaData/1.0/';
     var mediaStartField = 'Column.Intrinsic.SubclipStart';
     var result = {};
     var clip = $._ext_PPRO.getSequenceClip(sequenceJson, clipJson);
@@ -85,7 +89,10 @@ $._ext_XMP = {
       var projectMetadata = clip.projectItem.getProjectMetadata();
       var projXMP = new XMPMeta(projectMetadata);
       if (projXMP.doesPropertyExist(kPProPrivateProjectMetadataURI, mediaStartField)) {
-        var mediaStart = projXMP.getProperty(kPProPrivateProjectMetadataURI, mediaStartField).value;
+        var mediaStart = projXMP.getProperty(
+          kPProPrivateProjectMetadataURI,
+          mediaStartField,
+        ).value;
         result.mediaStart = mediaStart;
       }
       var xmpBlob = clip.projectItem.getXMPMetadata();
@@ -95,8 +102,18 @@ $._ext_XMP = {
         timecodeField = 'altTimecode';
       }
       if (xmp.doesPropertyExist(XMPConst.NS_DM, timecodeField)) {
-        result.startTimecode = xmp.getStructField(XMPConst.NS_DM, timecodeField, XMPConst.NS_DM, 'timeValue').value;
-        var format = xmp.getStructField(XMPConst.NS_DM, timecodeField, XMPConst.NS_DM, 'timeFormat').value;
+        result.startTimecode = xmp.getStructField(
+          XMPConst.NS_DM,
+          timecodeField,
+          XMPConst.NS_DM,
+          'timeValue',
+        ).value;
+        var format = xmp.getStructField(
+          XMPConst.NS_DM,
+          timecodeField,
+          XMPConst.NS_DM,
+          'timeFormat',
+        ).value;
         switch (format) {
           case '24Timecode':
             result.frameRate = 24;
@@ -137,14 +154,19 @@ $._ext_XMP = {
             break;
         }
       } else if (xmp.doesPropertyExist(XMPConst.NS_DM, 'videoFrameRate')) {
-        result.frameRate = parseFloat(xmp.getProperty(XMPConst.NS_DM, 'videoFrameRate').value);
+        result.frameRate = parseFloat(
+          xmp.getProperty(XMPConst.NS_DM, 'videoFrameRate').value,
+        );
       } else if (xmp.doesPropertyExist(XMPConst.NS_DM, 'audioSampleRate')) {
-        result.frameRate = parseInt(xmp.getProperty(XMPConst.NS_DM, 'audioSampleRate').value, 10);
+        result.frameRate = parseInt(
+          xmp.getProperty(XMPConst.NS_DM, 'audioSampleRate').value,
+          10,
+        );
       }
     }
     return $._ext_JSON.stringify(result);
   },
-  readXMP: function (xmp) {
+  readXMP: function(xmp) {
     if (!XMPMeta.getNamespacePrefix(this.schemaNS)) {
       XMPMeta.registerNamespace(this.schemaNS, this.prefix);
     }
@@ -187,23 +209,37 @@ $._ext_XMP = {
         var fieldPath;
         var fieldCount;
         // startTime
-        fieldPath = XMPUtils.composeStructFieldPath(this.schemaNS, path, this.schemaNS, 'startTime');
+        fieldPath = XMPUtils.composeStructFieldPath(
+          this.schemaNS,
+          path,
+          this.schemaNS,
+          'startTime',
+        );
         fieldCount = xmp.countArrayItems(this.schemaNS, fieldPath);
         if (fieldCount > obj.words.length) {
           fieldCount = obj.words.length;
         }
         for (j = 1; j <= fieldCount; j++) {
-          obj.words[j - 1].startTime = parseFloat(xmp.getArrayItem(this.schemaNS, fieldPath, j).value);
+          obj.words[j - 1].startTime = parseFloat(
+            xmp.getArrayItem(this.schemaNS, fieldPath, j).value,
+          );
         }
         var startCount = fieldCount;
         // endTime
-        fieldPath = XMPUtils.composeStructFieldPath(this.schemaNS, path, this.schemaNS, 'endTime');
+        fieldPath = XMPUtils.composeStructFieldPath(
+          this.schemaNS,
+          path,
+          this.schemaNS,
+          'endTime',
+        );
         fieldCount = xmp.countArrayItems(this.schemaNS, fieldPath);
         if (fieldCount > obj.words.length) {
           fieldCount = obj.words.length;
         }
         for (j = 1; j <= fieldCount; j++) {
-          obj.words[j - 1].endTime = parseFloat(xmp.getArrayItem(this.schemaNS, fieldPath, j).value);
+          obj.words[j - 1].endTime = parseFloat(
+            xmp.getArrayItem(this.schemaNS, fieldPath, j).value,
+          );
         }
         if (startCount === 0) {
           // missing all startTimes
@@ -227,13 +263,20 @@ $._ext_XMP = {
         }
         prevTime = obj.words[obj.words.length - 1].endTime;
         // confidence
-        fieldPath = XMPUtils.composeStructFieldPath(this.schemaNS, path, this.schemaNS, 'confidence');
+        fieldPath = XMPUtils.composeStructFieldPath(
+          this.schemaNS,
+          path,
+          this.schemaNS,
+          'confidence',
+        );
         fieldCount = xmp.countArrayItems(this.schemaNS, fieldPath);
         if (fieldCount > obj.words.length) {
           fieldCount = obj.words.length;
         }
         for (j = 1; j <= fieldCount; j++) {
-          obj.words[j - 1].confidence = parseFloat(xmp.getArrayItem(this.schemaNS, fieldPath, j).value);
+          obj.words[j - 1].confidence = parseFloat(
+            xmp.getArrayItem(this.schemaNS, fieldPath, j).value,
+          );
         }
         // missing fields
         for (j = fieldCount; j < obj.words.length; j++) {
@@ -245,7 +288,7 @@ $._ext_XMP = {
     this.fixTranscripts(result.transcripts);
     return result;
   },
-  writeXMP: function (xmp, obj) {
+  writeXMP: function(xmp, obj) {
     var transcripts = obj.transcripts;
     var lang = obj.lang || 'en-US';
     var speakerMap = obj.speakers || {};
@@ -262,14 +305,18 @@ $._ext_XMP = {
     // Transcripts array
     var i;
     for (i = 0; i < transcripts.length; i++) {
-      xmp.appendArrayItem(this.schemaNS,
-                          this.transcriptsName,
-                          null,
-                          XMPConst.PROP_IS_STRUCT,
-                          XMPConst.ARRAY_IS_ORDERED);
-      var path = XMPUtils.composeArrayItemPath(this.schemaNS,
-                                               this.transcriptsName,
-                                               XMPConst.ARRAY_LAST_ITEM);
+      xmp.appendArrayItem(
+        this.schemaNS,
+        this.transcriptsName,
+        null,
+        XMPConst.PROP_IS_STRUCT,
+        XMPConst.ARRAY_IS_ORDERED,
+      );
+      var path = XMPUtils.composeArrayItemPath(
+        this.schemaNS,
+        this.transcriptsName,
+        XMPConst.ARRAY_LAST_ITEM,
+      );
       var t = transcripts[i];
       var words = t.words;
       var text = '';
@@ -292,46 +339,51 @@ $._ext_XMP = {
         xmp.setStructField(this.schemaNS, path, this.schemaNS, 'speaker', speakerId);
       }
       var fieldPath;
-      fieldPath = XMPUtils.composeStructFieldPath(this.schemaNS, path, this.schemaNS, 'startTime');
+      fieldPath = XMPUtils.composeStructFieldPath(
+        this.schemaNS,
+        path,
+        this.schemaNS,
+        'startTime',
+      );
       for (w = 0; w < words.length; w++) {
         v = words[w].startTime;
-        xmp.appendArrayItem(this.schemaNS,
-                            fieldPath,
-                            v,
-                            0,
-                            XMPConst.ARRAY_IS_ORDERED);
+        xmp.appendArrayItem(this.schemaNS, fieldPath, v, 0, XMPConst.ARRAY_IS_ORDERED);
       }
-      fieldPath = XMPUtils.composeStructFieldPath(this.schemaNS, path, this.schemaNS, 'endTime');
+      fieldPath = XMPUtils.composeStructFieldPath(
+        this.schemaNS,
+        path,
+        this.schemaNS,
+        'endTime',
+      );
       for (w = 0; w < words.length; w++) {
         v = words[w].endTime;
-        xmp.appendArrayItem(this.schemaNS,
-                            fieldPath,
-                            v,
-                            0,
-                            XMPConst.ARRAY_IS_ORDERED);
+        xmp.appendArrayItem(this.schemaNS, fieldPath, v, 0, XMPConst.ARRAY_IS_ORDERED);
       }
-      fieldPath = XMPUtils.composeStructFieldPath(this.schemaNS, path, this.schemaNS, 'confidence');
+      fieldPath = XMPUtils.composeStructFieldPath(
+        this.schemaNS,
+        path,
+        this.schemaNS,
+        'confidence',
+      );
       for (w = 0; w < words.length; w++) {
         v = words[w].confidence;
-        xmp.appendArrayItem(this.schemaNS,
-                            fieldPath,
-                            v,
-                            0,
-                            XMPConst.ARRAY_IS_ORDERED);
+        xmp.appendArrayItem(this.schemaNS, fieldPath, v, 0, XMPConst.ARRAY_IS_ORDERED);
       }
     }
     // Speaker labels
     for (i = 0; i < speakerLabels.length; i++) {
-      xmp.appendArrayItem(this.schemaNS,
-                          this.speakerName,
-                          speakerLabels[i],
-                          0,
-                          XMPConst.ARRAY_IS_ORDERED);
+      xmp.appendArrayItem(
+        this.schemaNS,
+        this.speakerName,
+        speakerLabels[i],
+        0,
+        XMPConst.ARRAY_IS_ORDERED,
+      );
     }
     var xmpAsString = xmp.serialize(); // serialize and write XMP.
     return xmpAsString;
   },
-  parseFrameRate: function (rate) {
+  parseFrameRate: function(rate) {
     var result = 1; // Default frame rate for XMP.
     if (rate) {
       if (rate[0] === 'f') {
@@ -346,7 +398,7 @@ $._ext_XMP = {
     }
     return result;
   },
-  parseTimeValue: function (value, rate) {
+  parseTimeValue: function(value, rate) {
     if (value === 'maximum') {
       return 1000000;
     }
@@ -356,18 +408,29 @@ $._ext_XMP = {
     }
     return parseInt(value, 10) / rate;
   },
-  readSpeechAnalysis: function (xmp) {
+  readSpeechAnalysis: function(xmp) {
     var result = this.emptyObject;
     var count = xmp.countArrayItems(XMPConst.NS_DM, 'Tracks');
     if (count > 0) {
       for (var i = 1; i <= count; i++) {
         var path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks', i);
-        var type = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType').value;
+        var type = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType')
+          .value;
         if (type === 'Speech') {
-          var rate = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'frameRate');
+          var rate = xmp.getStructField(
+            XMPConst.NS_DM,
+            path,
+            XMPConst.NS_DM,
+            'frameRate',
+          );
           rate = this.parseFrameRate(rate && rate.value);
           result = { transcripts: [], speakers: {}, lang: 'en-US' };
-          var markersPath = XMPUtils.composeStructFieldPath(XMPConst.NS_DM, path, XMPConst.NS_DM, 'markers');
+          var markersPath = XMPUtils.composeStructFieldPath(
+            XMPConst.NS_DM,
+            path,
+            XMPConst.NS_DM,
+            'markers',
+          );
           var words = [];
           var markers = xmp.countArrayItems(XMPConst.NS_DM, markersPath);
           var speaker;
@@ -376,12 +439,33 @@ $._ext_XMP = {
           for (var j = 1; j <= markers; j++) {
             var markerJ = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, markersPath, j);
             var obj = {};
-            obj.startTime = this.parseTimeValue(xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'startTime').value, rate);
-            obj.endTime = this.parseTimeValue(xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'duration').value, rate) + obj.startTime;
-            obj.text = xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'name').value;
-            obj.confidence = xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'probability').value / 100;
+            obj.startTime = this.parseTimeValue(
+              xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'startTime')
+                .value,
+              rate,
+            );
+            obj.endTime =
+              this.parseTimeValue(
+                xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'duration')
+                  .value,
+                rate,
+              ) + obj.startTime;
+            obj.text = xmp.getStructField(
+              XMPConst.NS_DM,
+              markerJ,
+              XMPConst.NS_DM,
+              'name',
+            ).value;
+            obj.confidence =
+              xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'probability')
+                .value / 100;
             if (!speaker) {
-              speaker = xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'speaker');
+              speaker = xmp.getStructField(
+                XMPConst.NS_DM,
+                markerJ,
+                XMPConst.NS_DM,
+                'speaker',
+              );
               speaker = speaker ? speaker.value : undefined;
               if (speaker) {
                 if (speakerMap[speaker] === undefined) {
@@ -409,17 +493,18 @@ $._ext_XMP = {
     }
     return result;
   },
-  deleteSpeechAnalysis: function (xmp) {
+  deleteSpeechAnalysis: function(xmp) {
     var count = xmp.countArrayItems(XMPConst.NS_DM, 'Tracks');
     for (var i = count; i >= 1; i--) {
       var path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks', i);
-      var type = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType').value;
+      var type = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType')
+        .value;
       if (type === 'Speech') {
         xmp.deleteArrayItem(XMPConst.NS_DM, 'Tracks', i);
       }
     }
   },
-  writeSpeechAnalysis: function (xmp, obj) {
+  writeSpeechAnalysis: function(xmp, obj) {
     var transcripts = obj.transcripts;
     var speakers = obj.speakers || {};
     var name = 'Transcriptive';
@@ -427,40 +512,81 @@ $._ext_XMP = {
       name += ' (' + obj.lang + ')';
     }
     this.deleteSpeechAnalysis(xmp);
-    xmp.appendArrayItem(XMPConst.NS_DM, 'Tracks',
-                        null,
-                        XMPConst.PROP_IS_STRUCT,
-                        XMPConst.ARRAY_IS_UNORDERED);
-    var path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks',
-                                             XMPConst.ARRAY_LAST_ITEM);
+    xmp.appendArrayItem(
+      XMPConst.NS_DM,
+      'Tracks',
+      null,
+      XMPConst.PROP_IS_STRUCT,
+      XMPConst.ARRAY_IS_UNORDERED,
+    );
+    var path = XMPUtils.composeArrayItemPath(
+      XMPConst.NS_DM,
+      'Tracks',
+      XMPConst.ARRAY_LAST_ITEM,
+    );
     xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackName', name);
     xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType', 'Speech');
     xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'frameRate', 'f1000');
-    var markersPath = XMPUtils.composeStructFieldPath(XMPConst.NS_DM, path, XMPConst.NS_DM, 'markers');
+    var markersPath = XMPUtils.composeStructFieldPath(
+      XMPConst.NS_DM,
+      path,
+      XMPConst.NS_DM,
+      'markers',
+    );
     for (var i = 0; i < transcripts.length; i++) {
       var t = transcripts[i];
       var words = t.words;
       for (var w = 0; w < words.length; w++) {
         var word = words[w];
-        xmp.appendArrayItem(XMPConst.NS_DM, markersPath,
-                            null,
-                            XMPConst.PROP_IS_STRUCT,
-                            XMPConst.ARRAY_IS_ORDERED);
-        var markerN = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, markersPath,
-                                                    XMPConst.ARRAY_LAST_ITEM);
-        xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'startTime', Math.round(word.startTime * 1000));
-        xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'duration', Math.round((word.endTime - word.startTime) * 1000));
+        xmp.appendArrayItem(
+          XMPConst.NS_DM,
+          markersPath,
+          null,
+          XMPConst.PROP_IS_STRUCT,
+          XMPConst.ARRAY_IS_ORDERED,
+        );
+        var markerN = XMPUtils.composeArrayItemPath(
+          XMPConst.NS_DM,
+          markersPath,
+          XMPConst.ARRAY_LAST_ITEM,
+        );
+        xmp.setStructField(
+          XMPConst.NS_DM,
+          markerN,
+          XMPConst.NS_DM,
+          'startTime',
+          Math.round(word.startTime * 1000),
+        );
+        xmp.setStructField(
+          XMPConst.NS_DM,
+          markerN,
+          XMPConst.NS_DM,
+          'duration',
+          Math.round((word.endTime - word.startTime) * 1000),
+        );
         xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'name', word.text);
         if (t.speaker !== undefined && speakers[t.speaker]) {
-          xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'speaker', speakers[t.speaker]);
+          xmp.setStructField(
+            XMPConst.NS_DM,
+            markerN,
+            XMPConst.NS_DM,
+            'speaker',
+            speakers[t.speaker],
+          );
         }
-        xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'probability', Math.round(word.confidence * 100));
+        xmp.setStructField(
+          XMPConst.NS_DM,
+          markerN,
+          XMPConst.NS_DM,
+          'probability',
+          Math.round(word.confidence * 100),
+        );
       }
     }
     var xmpAsString = xmp.serialize(); // serialize and write XMP.
     return xmpAsString;
   },
-  writeSpeechAnalysisMarkers: function (xmp, obj, clip) {
+  writeSpeechAnalysisMarkers: function(xmp, obj, clip) {
     var markers = obj.markers || [];
     var name = 'Transcriptive';
     if (obj.lang) {
@@ -468,64 +594,114 @@ $._ext_XMP = {
     }
     var rate = 1000;
     this.deleteSpeechAnalysis(xmp);
-    xmp.appendArrayItem(XMPConst.NS_DM, 'Tracks',
-                        null,
-                        XMPConst.PROP_IS_STRUCT,
-                        XMPConst.ARRAY_IS_UNORDERED);
-    var path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks',
-                                             XMPConst.ARRAY_LAST_ITEM);
+    xmp.appendArrayItem(
+      XMPConst.NS_DM,
+      'Tracks',
+      null,
+      XMPConst.PROP_IS_STRUCT,
+      XMPConst.ARRAY_IS_UNORDERED,
+    );
+    var path = XMPUtils.composeArrayItemPath(
+      XMPConst.NS_DM,
+      'Tracks',
+      XMPConst.ARRAY_LAST_ITEM,
+    );
     xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackName', name);
     xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType', 'Speech');
     xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'frameRate', 'f' + rate);
-    var markersPath = XMPUtils.composeStructFieldPath(XMPConst.NS_DM, path, XMPConst.NS_DM, 'markers');
+    var markersPath = XMPUtils.composeStructFieldPath(
+      XMPConst.NS_DM,
+      path,
+      XMPConst.NS_DM,
+      'markers',
+    );
     for (var i = 0; i < markers.length; i++) {
       var marker = markers[i];
-      xmp.appendArrayItem(XMPConst.NS_DM, markersPath,
-                          null,
-                          XMPConst.PROP_IS_STRUCT,
-                          XMPConst.ARRAY_IS_ORDERED);
-      var markerN = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, markersPath,
-                                                  XMPConst.ARRAY_LAST_ITEM);
-      xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'startTime', Math.round(marker.startTime * rate));
-      xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'duration', Math.round(marker.duration * rate));
+      xmp.appendArrayItem(
+        XMPConst.NS_DM,
+        markersPath,
+        null,
+        XMPConst.PROP_IS_STRUCT,
+        XMPConst.ARRAY_IS_ORDERED,
+      );
+      var markerN = XMPUtils.composeArrayItemPath(
+        XMPConst.NS_DM,
+        markersPath,
+        XMPConst.ARRAY_LAST_ITEM,
+      );
+      xmp.setStructField(
+        XMPConst.NS_DM,
+        markerN,
+        XMPConst.NS_DM,
+        'startTime',
+        Math.round(marker.startTime * rate),
+      );
+      xmp.setStructField(
+        XMPConst.NS_DM,
+        markerN,
+        XMPConst.NS_DM,
+        'duration',
+        Math.round(marker.duration * rate),
+      );
       xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'name', marker.name);
       if (marker.speaker !== undefined) {
-        xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'speaker', marker.speaker);
+        xmp.setStructField(
+          XMPConst.NS_DM,
+          markerN,
+          XMPConst.NS_DM,
+          'speaker',
+          marker.speaker,
+        );
       }
-      xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'probability', Math.round(marker.probability * 100));
+      xmp.setStructField(
+        XMPConst.NS_DM,
+        markerN,
+        XMPConst.NS_DM,
+        'probability',
+        Math.round(marker.probability * 100),
+      );
     }
     var xmpAsString = xmp.serialize(); // serialize and write XMP.
     return xmpAsString;
   },
-  deleteClipMarkers: function (xmp, tpath, clip) {
-    // $._ext_PPRO.message('deleteClipMarkers');
+  deleteClipMarkers: function(xmp, tpath, clip) {
+    $._ext_PPRO.message('deleteClipMarkers');
     // the idea here is go through each marker and delete any with 'Transcriptive' in the name
     var cIn = parseFloat(clip.inPoint.seconds);
     var cOut = parseFloat(clip.outPoint.seconds);
     var rate = xmp.getStructField(XMPConst.NS_DM, tpath, XMPConst.NS_DM, 'frameRate');
     rate = this.parseFrameRate(rate && rate.value);
-    var markersPath = XMPUtils.composeStructFieldPath(XMPConst.NS_DM, tpath, XMPConst.NS_DM, 'markers');
+    var markersPath = XMPUtils.composeStructFieldPath(
+      XMPConst.NS_DM,
+      tpath,
+      XMPConst.NS_DM,
+      'markers',
+    );
     var markers = xmp.countArrayItems(XMPConst.NS_DM, markersPath);
     for (var i = markers; i >= 1; i--) {
       var path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, markersPath, i);
-      var start = this.parseTimeValue(xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'startTime').value, rate);
-      // $._ext_PPRO.message('start' + ' ' + start + ' cIn ' + cIn + ' cOut ' + cOut);
+      var start = this.parseTimeValue(
+        xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'startTime').value,
+        rate,
+      );
+      $._ext_PPRO.message('start' + ' ' + start + ' cIn ' + cIn + ' cOut ' + cOut);
       if (start >= cIn && start < cOut) {
         var name = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'name').value;
-        // $._ext_PPRO.message('name' + ' ' + name);
+        $._ext_PPRO.message('name' + ' ' + name);
         if (name.search('Transcriptive') >= 0) {
           xmp.deleteArrayItem(XMPConst.NS_DM, markersPath, i);
         }
       }
     }
   },
-  writeClipMarkers: function (xmp, markers, clip) {
+  writeClipMarkers: function(xmp, markers, clip) {
     var rate = 1000;
     var path;
     var count = xmp.countArrayItems(XMPConst.NS_DM, 'Tracks');
     for (var t = count; t >= 1; t--) {
       var tpath = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks', t);
-      var type = xmp.getStructField(XMPConst.NS_DM, tpath, XMPConst.NS_DM, 'trackType').value;
+      var type = xmp.getStructField(XMPConst.NS_DM, tpath, XMPConst.NS_DM, 'trackType')
+        .value;
       if (type === 'Comment') {
         path = tpath;
         this.deleteClipMarkers(xmp, path, clip);
@@ -537,18 +713,29 @@ $._ext_XMP = {
       rate = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'frameRate');
       rate = this.parseFrameRate(rate && rate.value);
     } else {
-      xmp.appendArrayItem(XMPConst.NS_DM, 'Tracks',
-                          null,
-                          XMPConst.PROP_IS_STRUCT,
-                          XMPConst.ARRAY_IS_UNORDERED);
-      path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks',
-                                           XMPConst.ARRAY_LAST_ITEM);
+      xmp.appendArrayItem(
+        XMPConst.NS_DM,
+        'Tracks',
+        null,
+        XMPConst.PROP_IS_STRUCT,
+        XMPConst.ARRAY_IS_UNORDERED,
+      );
+      path = XMPUtils.composeArrayItemPath(
+        XMPConst.NS_DM,
+        'Tracks',
+        XMPConst.ARRAY_LAST_ITEM,
+      );
       xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackName', 'Comment');
       xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType', 'Comment');
       xmp.setStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'frameRate', 'f' + rate);
       count = 0;
     }
-    var markersPath = XMPUtils.composeStructFieldPath(XMPConst.NS_DM, path, XMPConst.NS_DM, 'markers');
+    var markersPath = XMPUtils.composeStructFieldPath(
+      XMPConst.NS_DM,
+      path,
+      XMPConst.NS_DM,
+      'markers',
+    );
     if (count < 0) {
       count = xmp.countArrayItems(XMPConst.NS_DM, markersPath);
     }
@@ -561,7 +748,12 @@ $._ext_XMP = {
       while (j <= count) {
         if (startJ === null) {
           var markerJ = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, markersPath, j);
-          startJ = xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, 'startTime').value;
+          startJ = xmp.getStructField(
+            XMPConst.NS_DM,
+            markerJ,
+            XMPConst.NS_DM,
+            'startTime',
+          ).value;
         }
         if (startJ >= startTime) {
           break;
@@ -571,15 +763,22 @@ $._ext_XMP = {
       }
       var index;
       if (j <= count) {
-        xmp.insertArrayItem(XMPConst.NS_DM, markersPath,
-                            j, null,
-                            XMPConst.PROP_IS_STRUCT);
+        xmp.insertArrayItem(
+          XMPConst.NS_DM,
+          markersPath,
+          j,
+          null,
+          XMPConst.PROP_IS_STRUCT,
+        );
         index = j;
       } else {
-        xmp.appendArrayItem(XMPConst.NS_DM, markersPath,
-                            null,
-                            XMPConst.PROP_IS_STRUCT,
-                            XMPConst.ARRAY_IS_ORDERED);
+        xmp.appendArrayItem(
+          XMPConst.NS_DM,
+          markersPath,
+          null,
+          XMPConst.PROP_IS_STRUCT,
+          XMPConst.ARRAY_IS_ORDERED,
+        );
         index = XMPConst.ARRAY_LAST_ITEM;
       }
       j++;
@@ -587,19 +786,31 @@ $._ext_XMP = {
       var markerN = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, markersPath, index);
       xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'startTime', startTime);
       if (marker.duration !== undefined && marker.duration > 0) {
-        xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'duration', Math.round(marker.duration * rate));
+        xmp.setStructField(
+          XMPConst.NS_DM,
+          markerN,
+          XMPConst.NS_DM,
+          'duration',
+          Math.round(marker.duration * rate),
+        );
       }
       if (marker.name !== undefined) {
         xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'name', marker.name);
       }
       if (marker.comments !== undefined) {
-        xmp.setStructField(XMPConst.NS_DM, markerN, XMPConst.NS_DM, 'comment', marker.comments);
+        xmp.setStructField(
+          XMPConst.NS_DM,
+          markerN,
+          XMPConst.NS_DM,
+          'comment',
+          marker.comments,
+        );
       }
     }
     var xmpAsString = xmp.serialize(); // serialize and write XMP.
     return xmpAsString;
   },
-  readSpeechAnalysisFromClip: function (sequenceJson, clipJson, punctuate) {
+  readSpeechAnalysisFromClip: function(sequenceJson, clipJson, punctuate) {
     var result = {};
     var clip = $._ext_PPRO.getSequenceClip(sequenceJson, clipJson);
     if (clip && clip.projectItem) {
@@ -625,13 +836,29 @@ $._ext_XMP = {
       if (count > 0) {
         for (var i = 1; i <= count; i++) {
           var path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks', i);
-          var type = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType').value;
+          var type = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType')
+            .value;
           if (type === 'Speech') {
-            var name = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackName').value;
+            var name = xmp.getStructField(
+              XMPConst.NS_DM,
+              path,
+              XMPConst.NS_DM,
+              'trackName',
+            ).value;
             var markers = [];
-            var rate = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'frameRate');
+            var rate = xmp.getStructField(
+              XMPConst.NS_DM,
+              path,
+              XMPConst.NS_DM,
+              'frameRate',
+            );
             rate = this.parseFrameRate(rate && rate.value);
-            var markersPath = XMPUtils.composeStructFieldPath(XMPConst.NS_DM, path, XMPConst.NS_DM, 'markers');
+            var markersPath = XMPUtils.composeStructFieldPath(
+              XMPConst.NS_DM,
+              path,
+              XMPConst.NS_DM,
+              'markers',
+            );
             var words = [];
             var markersCount = xmp.countArrayItems(XMPConst.NS_DM, markersPath);
             var speaker;
@@ -642,7 +869,12 @@ $._ext_XMP = {
               var fields = ['startTime', 'duration', 'name', 'probability', 'speaker'];
               var obj = {};
               for (var f = 0; f < fields.length; f++) {
-                var v = xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, fields[f]);
+                var v = xmp.getStructField(
+                  XMPConst.NS_DM,
+                  markerJ,
+                  XMPConst.NS_DM,
+                  fields[f],
+                );
                 if (v !== undefined && v.value !== undefined) {
                   obj[fields[f]] = v.value;
                 }
@@ -651,24 +883,33 @@ $._ext_XMP = {
               obj.duration = this.parseTimeValue(obj.duration, rate);
               obj.probability /= 100;
               var endTime = obj.startTime + obj.duration;
-              if (obj.startTime < c.outPoint.seconds &&
-                  endTime >= c.inPoint.seconds) {
+              if (obj.startTime < c.outPoint.seconds && endTime >= c.inPoint.seconds) {
                 if (obj.startTime < c.inPoint.seconds) {
                   obj.startTime = c.inPoint.seconds;
                 }
                 if (endTime > c.outPoint.seconds) {
                   endTime = c.outPoint.seconds;
                 }
-                var scale = (c.end.seconds - c.start.seconds) / (c.outPoint.seconds - c.inPoint.seconds);
-                obj.startTime = (obj.startTime - c.inPoint.seconds) * scale + c.start.seconds;
+                var scale =
+                  (c.end.seconds - c.start.seconds) /
+                  (c.outPoint.seconds - c.inPoint.seconds);
+                obj.startTime =
+                  (obj.startTime - c.inPoint.seconds) * scale + c.start.seconds;
                 endTime = (endTime - c.inPoint.seconds) * scale + c.start.seconds;
                 obj.duration = endTime - obj.startTime;
                 if (punctuate && markers.length === 0 && j > 1) {
                   // Capitalize first word of clipped sentence.
-                  obj.name = obj.name.charAt(0).toUpperCase().concat(obj.name.slice(1));
+                  obj.name = obj.name
+                    .charAt(0)
+                    .toUpperCase()
+                    .concat(obj.name.slice(1));
                 }
                 markers.push(obj);
-              } else if (punctuate && obj.startTime >= c.outPoint.seconds && markers.length > 0) {
+              } else if (
+                punctuate &&
+                obj.startTime >= c.outPoint.seconds &&
+                markers.length > 0
+              ) {
                 // Add period to end of clipped sentence.
                 if (markers[markers.length - 1].name.slice(-1).search('[.?!]') < 0) {
                   markers[markers.length - 1].name += '.';
@@ -696,65 +937,7 @@ $._ext_XMP = {
     }
     return $._ext_JSON.stringify(result);
   },
-  testSpeechAnalysisFromClip: function (sequenceJson, clipJson) {
-    var result = false;
-    var clip = $._ext_PPRO.getSequenceClip(sequenceJson, clipJson);
-    if (clip && clip.projectItem) {
-      if (!this.initXMP()) {
-        return $._ext_JSON.stringify(result);
-      }
-      var c = $._ext_JSON.parse(clipJson);
-      if (!c.start) {
-        c.start = clip.start;
-      }
-      if (!c.end) {
-        c.end = clip.end;
-      }
-      if (!c.inPoint) {
-        c.inPoint = clip.inPoint;
-      }
-      if (!c.outPoint) {
-        c.outPoint = clip.outPoint;
-      }
-      var xmp_blob = clip.projectItem.getXMPMetadata();
-      var xmp = new XMPMeta(xmp_blob);
-      var count = xmp.countArrayItems(XMPConst.NS_DM, 'Tracks');
-      if (count > 0) {
-        for (var i = 1; i <= count; i++) {
-          var path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks', i);
-          var type = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType').value;
-          if (type === 'Speech') {
-            var name = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackName').value;
-            var rate = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'frameRate');
-            rate = this.parseFrameRate(rate && rate.value);
-            var markersPath = XMPUtils.composeStructFieldPath(XMPConst.NS_DM, path, XMPConst.NS_DM, 'markers');
-            var markersCount = xmp.countArrayItems(XMPConst.NS_DM, markersPath);
-            for (var j = 1; j <= markersCount && !result; j++) {
-              var markerJ = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, markersPath, j);
-              var fields = ['startTime', 'duration'];
-              var obj = {};
-              for (var f = 0; f < fields.length; f++) {
-                var v = xmp.getStructField(XMPConst.NS_DM, markerJ, XMPConst.NS_DM, fields[f]);
-                if (v !== undefined && v.value !== undefined) {
-                  obj[fields[f]] = v.value;
-                }
-              }
-              obj.startTime = this.parseTimeValue(obj.startTime, rate);
-              obj.duration = this.parseTimeValue(obj.duration, rate);
-              var endTime = obj.startTime + obj.duration;
-              if (obj.startTime < c.outPoint.seconds &&
-                  endTime >= c.inPoint.seconds) {
-                result = true;
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-    return $._ext_JSON.stringify(result);
-  },
-  writeSpeechAnalysisToClip: function (sequenceJson, clipJson, markersJson) {
+  writeSpeechAnalysisToClip: function(sequenceJson, clipJson, markersJson) {
     var clip = $._ext_PPRO.getSequenceClip(sequenceJson, clipJson);
     if (clip && clip.projectItem) {
       if (!this.initXMP()) {
@@ -770,59 +953,7 @@ $._ext_XMP = {
     }
     return false;
   },
-  writeSpeechAnalysisToSidecar: function (path, sequenceJson, clipJson, markersJson) {
-    var clip = $._ext_PPRO.getSequenceClip(sequenceJson, clipJson);
-    var result = false;
-    if (clip && clip.projectItem) {
-      if (!this.initXMP()) {
-        return false;
-      }
-      var file = new File(path);
-      file.encoding = 'UTF8';
-      if (file.open('e')) {
-        xmp = new XMPMeta(file.read());
-        var obj = $._ext_JSON.parse(markersJson);
-        var xmpAsString = this.writeSpeechAnalysisMarkers(xmp, obj, clip);
-        if (file.seek(0)) {
-          result = file.write(xmpAsString);
-        }
-        file.close();
-        var mediaPath = path.substr(0, path.length - 4);
-        $._ext_PPRO.refreshMediaPath(mediaPath);
-      }
-    }
-    return result;
-  },
-  writeSpeechAnalysisToClipFile: function (path, sequenceJson, clipJson, markersJson) {
-    if (!this.initXMP()) {
-      return false;
-    }
-    if (path.split('.').pop().toLowerCase() === 'xmp') {
-      return this.writeSpeechAnalysisToSidecar(path, sequenceJson, clipJson, markersJson);
-    }
-    try {
-      var file = new File(path);
-      var xmpFile = new XMPFile(file.fsName,
-                                XMPConst.UNKNOWN,
-                                XMPConst.OPEN_FOR_UPDATE | XMPConst.OPEN_ONLY_XMP);
-      var xmp = xmpFile.getXMP();
-      if (!xmp) {
-        xmp = new XMPMeta();
-      }
-      var obj = $._ext_JSON.parse(markersJson);
-      this.writeSpeechAnalysisMarkers(xmp, obj, clip);
-      if (xmpFile.canPutXMP(xmp)) {
-        xmpFile.putXMP(xmp);
-        xmpFile.closeFile(XMPConst.CLOSE_UPDATE_SAFELY);
-        $._ext_PPRO.refreshMediaPath(path);
-        return true;
-      }
-    } catch (err) {
-      return false;
-    }
-    return false;
-  },
-  importSpeechAnalysisFromItem: function (projectItemPath) {
+  importSpeechAnalysisFromItem: function(projectItemPath) {
     var projectItem = $._ext_PPRO.projectItemFromPath(projectItemPath);
     var result = this.emptyObject;
     if (projectItem) {
@@ -835,7 +966,7 @@ $._ext_XMP = {
     }
     return $._ext_JSON.stringify(result);
   },
-  exportSpeechAnalysisToItem: function (projectItemPath, transcriptsJson) {
+  exportSpeechAnalysisToItem: function(projectItemPath, transcriptsJson) {
     var projectItem = $._ext_PPRO.projectItemFromPath(projectItemPath);
     if (projectItem) {
       if (!this.initXMP()) {
@@ -851,7 +982,7 @@ $._ext_XMP = {
     }
     return false;
   },
-  deleteSpeechAnalysisFromClip: function (sequenceJson, clipJson) {
+  deleteSpeechAnalysisFromClip: function(sequenceJson, clipJson) {
     var clip = $._ext_PPRO.getSequenceClip(sequenceJson, clipJson);
     if (clip && clip.projectItem) {
       if (!this.initXMP()) {
@@ -867,7 +998,7 @@ $._ext_XMP = {
     }
     return false;
   },
-  fileSupportsXMP: function (path) {
+  fileSupportsXMP: function(path) {
     try {
       if (!this.initXMP()) {
         return false;
@@ -875,8 +1006,10 @@ $._ext_XMP = {
       var file = new File(path);
       var xmpFile = new XMPFile(file.fsName, XMPConst.UNKNOWN, XMPConst.OPEN_FOR_READ);
       var info = xmpFile.getFileInfo();
-      if ((info.handlerFlags & XMPConst.HANDLER_CAN_INJECT_XMP) &&
-          (info.handlerFlags & XMPConst.HANDLER_CAN_EXPAND)) {
+      if (
+        info.handlerFlags & XMPConst.HANDLER_CAN_INJECT_XMP &&
+        info.handlerFlags & XMPConst.HANDLER_CAN_EXPAND
+      ) {
         return true;
       }
     } catch (err) {
@@ -884,16 +1017,18 @@ $._ext_XMP = {
     }
     return false;
   },
-  importSpeechAnalysisFromFile: function (path) {
+  importSpeechAnalysisFromFile: function(path) {
     var result = this.emptyObject;
     if (!this.initXMP()) {
       return $._ext_JSON.stringify(result);
     }
     try {
       var file = new File(path);
-      var xmpFile = new XMPFile(file.fsName,
-                                XMPConst.UNKNOWN,
-                                XMPConst.OPEN_FOR_READ | XMPConst.OPEN_ONLY_XMP);
+      var xmpFile = new XMPFile(
+        file.fsName,
+        XMPConst.UNKNOWN,
+        XMPConst.OPEN_FOR_READ | XMPConst.OPEN_ONLY_XMP,
+      );
       var xmp = xmpFile.getXMP();
       result = this.readSpeechAnalysis(xmp);
     } catch (err) {
@@ -901,7 +1036,7 @@ $._ext_XMP = {
     }
     return $._ext_JSON.stringify(result);
   },
-  exportSpeechAnalysisToSidecar: function (path, transcriptsJson) {
+  exportSpeechAnalysisToSidecar: function(path, transcriptsJson) {
     if (!this.initXMP()) {
       return false;
     }
@@ -921,18 +1056,25 @@ $._ext_XMP = {
     }
     return result;
   },
-  exportSpeechAnalysisToFile: function (path, transcriptsJson) {
+  exportSpeechAnalysisToFile: function(path, transcriptsJson) {
     if (!this.initXMP()) {
       return false;
     }
-    if (path.split('.').pop().toLowerCase() === 'xmp') {
+    if (
+      path
+        .split('.')
+        .pop()
+        .toLowerCase() === 'xmp'
+    ) {
       return this.exportSpeechAnalysisToSidecar(path, transcriptsJson);
     }
     try {
       var file = new File(path);
-      var xmpFile = new XMPFile(file.fsName,
-                                XMPConst.UNKNOWN,
-                                XMPConst.OPEN_FOR_UPDATE | XMPConst.OPEN_ONLY_XMP);
+      var xmpFile = new XMPFile(
+        file.fsName,
+        XMPConst.UNKNOWN,
+        XMPConst.OPEN_FOR_UPDATE | XMPConst.OPEN_ONLY_XMP,
+      );
       var xmp = xmpFile.getXMP();
       if (!xmp) {
         xmp = new XMPMeta();
@@ -950,11 +1092,13 @@ $._ext_XMP = {
     }
     return false;
   },
-  exportMarkersToClip: function (sequenceJson, clipJson, markersJson) {
+  exportMarkersToClip: function(sequenceJson, clipJson, markersJson) {
     var clip = $._ext_PPRO.getSequenceClip(sequenceJson, clipJson);
     if (clip && clip.projectItem) {
-      if (clip.projectItem.type === ProjectItemType.CLIP ||
-          clip.projectItem.type === ProjectItemType.FILE) {
+      if (
+        clip.projectItem.type === ProjectItemType.CLIP ||
+        clip.projectItem.type === ProjectItemType.FILE
+      ) {
         var markerObjs = $._ext_JSON.parse(markersJson);
         $._ext_PPRO.exportMarkers(clip.projectItem.getMarkers(), markerObjs, clip);
         return true;
@@ -962,7 +1106,7 @@ $._ext_XMP = {
     }
     return false;
   },
-  exportMarkersToClipXMP: function (sequenceJson, clipJson, markersJson) {
+  exportMarkersToClipXMP: function(sequenceJson, clipJson, markersJson) {
     var clip = $._ext_PPRO.getSequenceClip(sequenceJson, clipJson);
     if (clip && clip.projectItem) {
       if (!this.initXMP()) {
@@ -980,7 +1124,7 @@ $._ext_XMP = {
   },
   // See discussion of project metadata here:
   // https://forums.adobe.com/thread/2169243
-  loadTranscriptsXMP: function () {
+  loadTranscriptsXMP: function() {
     var activeSequence = app.project.activeSequence;
     if (activeSequence) {
       if (!this.initXMP()) {
@@ -989,7 +1133,10 @@ $._ext_XMP = {
       var xmp_blob = activeSequence.projectItem.getProjectMetadata();
       var xmp = new XMPMeta(xmp_blob);
       if (xmp.doesPropertyExist(this.kPProPrivateProjectMetadataURI, this.projectField)) {
-        var result = xmp.getProperty(this.kPProPrivateProjectMetadataURI, this.projectField);
+        var result = xmp.getProperty(
+          this.kPProPrivateProjectMetadataURI,
+          this.projectField,
+        );
         if (result) {
           var x = new XMPMeta(result.value);
           result = this.readXMP(x);
@@ -999,7 +1146,7 @@ $._ext_XMP = {
     }
     return $._ext_JSON.stringify(this.emptyObject);
   },
-  loadTranscripts: function (sequenceJson) {
+  loadTranscripts: function(sequenceJson) {
     var sequenceObj = $._ext_JSON.parse(sequenceJson);
     var activeSequence = $._ext_PPRO.searchForSequence(sequenceObj);
     if (!activeSequence) {
@@ -1012,7 +1159,10 @@ $._ext_XMP = {
       var xmp_blob = activeSequence.projectItem.getProjectMetadata();
       var xmp = new XMPMeta(xmp_blob);
       if (xmp.doesPropertyExist(this.kPProPrivateProjectMetadataURI, this.projectField)) {
-        var result = xmp.getProperty(this.kPProPrivateProjectMetadataURI, this.projectField);
+        var result = xmp.getProperty(
+          this.kPProPrivateProjectMetadataURI,
+          this.projectField,
+        );
         if (result) {
           if (result.value.substring(0, 1) === '{') {
             return result.value;
@@ -1026,7 +1176,7 @@ $._ext_XMP = {
     }
     return $._ext_JSON.stringify(this.emptyObject);
   },
-  loadTranscriptsPosition: function (sequenceJson) {
+  loadTranscriptsPosition: function(sequenceJson) {
     var sequenceObj = $._ext_JSON.parse(sequenceJson);
     var activeSequence = $._ext_PPRO.searchForSequence(sequenceObj);
     if (!activeSequence) {
@@ -1038,8 +1188,13 @@ $._ext_XMP = {
       }
       var xmp_blob = activeSequence.projectItem.getProjectMetadata();
       var xmp = new XMPMeta(xmp_blob);
-      if (xmp.doesPropertyExist(this.kPProPrivateProjectMetadataURI, this.positionField)) {
-        var result = xmp.getProperty(this.kPProPrivateProjectMetadataURI, this.positionField);
+      if (
+        xmp.doesPropertyExist(this.kPProPrivateProjectMetadataURI, this.positionField)
+      ) {
+        var result = xmp.getProperty(
+          this.kPProPrivateProjectMetadataURI,
+          this.positionField,
+        );
         if (result) {
           return result.value;
         }
@@ -1047,7 +1202,7 @@ $._ext_XMP = {
     }
     return '';
   },
-  saveTranscriptsXMP: function (sequenceJson, transcriptsJson) {
+  saveTranscriptsXMP: function(sequenceJson, transcriptsJson) {
     var transcribedSeq = $._ext_JSON.parse(sequenceJson);
     var curSequence = $._ext_PPRO.searchForSequence(transcribedSeq);
     if (curSequence) {
@@ -1060,11 +1215,18 @@ $._ext_XMP = {
       var transXMP = new XMPMeta();
       var xmpAsString = this.writeXMP(transXMP, obj);
       // 2 means text type.
-      var successfullyAdded = app.project.addPropertyToProjectMetadataSchema(this.projectField, this.projectLabel, 2);
+      var successfullyAdded = app.project.addPropertyToProjectMetadataSchema(
+        this.projectField,
+        this.projectLabel,
+        2,
+      );
       if (successfullyAdded) {
         var array = [];
-        xmp.setProperty(this.kPProPrivateProjectMetadataURI,
-                        this.projectField, xmpAsString);
+        xmp.setProperty(
+          this.kPProPrivateProjectMetadataURI,
+          this.projectField,
+          xmpAsString,
+        );
         array[0] = this.projectField;
         var str = xmp.serialize();
         curSequence.projectItem.setProjectMetadata(str, array);
@@ -1073,7 +1235,7 @@ $._ext_XMP = {
     }
     return false;
   },
-  saveTranscripts: function (sequenceJson, transcriptsJson) {
+  saveTranscripts: function(sequenceJson, transcriptsJson) {
     var transcribedSeq = $._ext_JSON.parse(sequenceJson);
     var curSequence = $._ext_PPRO.searchForSequence(transcribedSeq);
     if (curSequence) {
@@ -1083,11 +1245,18 @@ $._ext_XMP = {
       var xmp_blob = curSequence.projectItem.getProjectMetadata();
       var xmp = new XMPMeta(xmp_blob);
       // 2 means text type.
-      var successfullyAdded = app.project.addPropertyToProjectMetadataSchema(this.projectField, this.projectLabel, 2);
+      var successfullyAdded = app.project.addPropertyToProjectMetadataSchema(
+        this.projectField,
+        this.projectLabel,
+        2,
+      );
       if (successfullyAdded) {
         var array = [];
-        xmp.setProperty(this.kPProPrivateProjectMetadataURI,
-                        this.projectField, transcriptsJson);
+        xmp.setProperty(
+          this.kPProPrivateProjectMetadataURI,
+          this.projectField,
+          transcriptsJson,
+        );
         array[0] = this.projectField;
         var str = xmp.serialize();
         curSequence.projectItem.setProjectMetadata(str, array);
@@ -1096,7 +1265,7 @@ $._ext_XMP = {
     }
     return false;
   },
-  saveTranscriptsPosition: function (sequenceJson, pos) {
+  saveTranscriptsPosition: function(sequenceJson, pos) {
     var transcribedSeq = $._ext_JSON.parse(sequenceJson);
     var curSequence = $._ext_PPRO.searchForSequence(transcribedSeq);
     if (curSequence) {
@@ -1106,11 +1275,18 @@ $._ext_XMP = {
       var xmp_blob = curSequence.projectItem.getProjectMetadata();
       var xmp = new XMPMeta(xmp_blob);
       // 2 means text type.
-      var successfullyAdded = app.project.addPropertyToProjectMetadataSchema(this.positionField, this.positionLabel, 2);
+      var successfullyAdded = app.project.addPropertyToProjectMetadataSchema(
+        this.positionField,
+        this.positionLabel,
+        2,
+      );
       if (successfullyAdded) {
         var array = [];
-        xmp.setProperty(this.kPProPrivateProjectMetadataURI,
-                        this.positionField, pos.toString());
+        xmp.setProperty(
+          this.kPProPrivateProjectMetadataURI,
+          this.positionField,
+          pos.toString(),
+        );
         array[0] = this.positionField;
         var str = xmp.serialize();
         curSequence.projectItem.setProjectMetadata(str, array);
@@ -1118,5 +1294,106 @@ $._ext_XMP = {
       }
     }
     return false;
-  }
+  },
+
+  loadTranscriptsFromXMP: function(xmp) {
+    if (xmp.doesPropertyExist(this.kPProPrivateProjectMetadataURI, this.projectField)) {
+      var result = xmp.getProperty(
+        this.kPProPrivateProjectMetadataURI,
+        this.projectField,
+      );
+      if (result) {
+        if (result.value.substring(0, 1) === '{') {
+          return result.value;
+        }
+        // Backwards compatibility
+        var x = new XMPMeta(result.value);
+        result = this.readXMP(x);
+        return $._ext_JSON.stringify(result);
+      }
+    }
+  },
+  getFrameRate: function(xmp) {
+    var MediaTimebase = 'Column.Intrinsic.MediaTimebase';
+    if (xmp.doesPropertyExist(this.kPProPrivateProjectMetadataURI, MediaTimebase)) {
+      var result = xmp.getProperty(this.kPProPrivateProjectMetadataURI, MediaTimebase);
+      return Number(result.value.replace('fps'));
+    }
+
+    var count = xmp.countArrayItems(XMPConst.NS_DM, 'Tracks');
+    if (count > 0) {
+      for (var i = 1; i <= count; i++) {
+        var path = XMPUtils.composeArrayItemPath(XMPConst.NS_DM, 'Tracks', i);
+        var type = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'trackType')
+          .value;
+        if (type !== 'Speech') {
+          var rate = xmp.getStructField(XMPConst.NS_DM, path, XMPConst.NS_DM, 'frameRate')
+            .value;
+          if (rate[0] === 'f') {
+            rate = rate.substr(1);
+          }
+          rate = Number(rate);
+          return rate;
+        }
+      }
+    }
+    return 30;
+  },
+  findProjectItemByKey: function(key, value) {
+    var i = 0;
+    var allMediaProjectItems = $._PPP_.getAllRootItemMedia();
+    for (i; i < allMediaProjectItems.length; i++) {
+      var projectItem = allMediaProjectItems[i];
+      if (projectItem[key] === value) {
+        return projectItem;
+      }
+    }
+    return null;
+  },
+  //http://estk.aenhancers.com/10%20-%20Scripting%20Access%20to%20XMP%20Metadata/xmpscript-object-reference.html#xmpiterator-object
+  getSchemas: function(projectItem, schemas, xmpMetadata) {
+    xmpMetadata = xmpMetadata || new XMPMeta(projectItem.getXMPMetadata());
+    schemas = schemas || [XMPConst.NS_XMP, XMPConst.NS_DC, XMPConst.NS_XMP_RIGHTS];
+    var results = schemas
+      .map(function(schema) {
+        return xmpMetadata.iterator(null, schema);
+      })
+      .map(function(itr) {
+        var itrR = [];
+        var n = itr.next();
+        while (!!n) {
+          n = itr.next();
+          if (!!n) {
+            itrR.push({
+              namespace: n.namespace,
+              isArray: n.options === XMPConst.PROP_IS_ARRAY,
+              isStruc: n.options === XMPConst.PROP_IS_STRUCT,
+              locale: n.locale,
+              options: n.options,
+              path: n.path,
+              value: n.value,
+            });
+          }
+        }
+        return itrR;
+      });
+    return results;
+  },
+  getFileMetadata: function(object) {
+    if (!this.initXMP()) {
+      this.initXMP();
+    }
+    var parsed = $._ext_JSON.parse(object);
+    var searchParam = !!parsed.nodeId ? 'nodeId' : 'name';
+    var searchValue = parsed[searchParam];
+    var projectItem = this.findProjectItemByKey(searchParam, searchValue);
+    var xmpMetadata = new XMPMeta(projectItem.getXMPMetadata());
+    //XMPConst.NS_DM
+    return $._ext_JSON.stringify({
+      projectItem: projectItem,
+      schemas: this.getSchemas(projectItem, null, xmpMetadata),
+      markers: $._PPP_.getClipMarkers(projectItem),
+      clipMetadata: this.readSpeechAnalysis(xmpMetadata),
+    });
+  },
 };

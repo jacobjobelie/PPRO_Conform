@@ -1,5 +1,7 @@
-(function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -65,7 +67,13 @@ var insertClip = function () {
             console.log(timeValues);*/
             // const timecode = window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame });
 
-            return _context2.abrupt('return', window.evalFunction('$._PPP_.addClipToSequenceTimeline', [treePath, window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: 59.7, dropFrame: false }), window.DigitalAnarchy.Timecode.fromSeconds(outTime, { frameRate: 59.7, dropFrame: false })]
+            return _context2.abrupt('return', window.evalFunction('$._PPP_.addClipToSequenceTimeline', [treePath, window.DigitalAnarchy.Timecode.fromSeconds(inTime, {
+              frameRate: 59.7,
+              dropFrame: false
+            }), window.DigitalAnarchy.Timecode.fromSeconds(outTime, {
+              frameRate: 59.7,
+              dropFrame: false
+            })]
             /*window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),
             window.DigitalAnarchy.Timecode.fromSeconds(outTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),*/
             ));
@@ -175,7 +183,181 @@ window.Conform = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(functio
   }, _callee4, undefined);
 }));
 
-},{"path-parse":3,"uuid":4}],2:[function(require,module,exports){
+window.XMP = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+  var tree, seqResponse, extractFields, returnObject;
+  return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.next = 2;
+          return window.evalFunctionJSON('$._PPP_.getTree', []);
+
+        case 2:
+          tree = _context5.sent;
+          _context5.next = 5;
+          return Promise.all(tree.rootItems
+          //.filter(obj => obj.name.indexOf('mov') > -1)
+          .map(function (obj) {
+            return window.evalFunctionJSON('$._ext_POWERSERACH_XMP.getFileMetadata', [JSON.stringify(obj), false]);
+          }));
+
+        case 5:
+          seqResponse = _context5.sent;
+
+          extractFields = function extractFields(schemas) {
+            var fields = {};
+            schemas.forEach(function (schema) {
+              schema.filter(function (prop) {
+                return prop.path.indexOf('/?xml') < 0;
+              }).forEach(function (prop) {
+                var value = prop.value;
+
+                var category = prop.path.split(':')[0];
+                var name = prop.path.split(':')[1];
+                var arrayIndexStr = name.split('[')[1];
+                arrayIndexStr = !!arrayIndexStr ? parseInt(arrayIndexStr.substring(0, 1), 10) : null;
+                var isArrayItem = !_.isNil(arrayIndexStr);
+                var nameExtracted = isArrayItem ? name.split('[')[0] : name;
+                var obj = {
+                  category: category,
+                  key: isArrayItem ? nameExtracted : name,
+                  value: value
+                };
+                if (isArrayItem) {
+                  if (_.isArray(fields[nameExtracted])) {
+                    console.log(obj);
+                    fields[nameExtracted].push(obj);
+                  } else {
+                    console.log(nameExtracted);
+                    console.log(obj);
+                  }
+                } else {
+                  var arr = prop.isArray && obj.value.length ? [obj] : [];
+                  fields[name] = prop.isArray ? arr : obj;
+                }
+              });
+            });
+            return fields;
+          };
+
+          returnObject = seqResponse.map(function (result) {
+            return _extends({}, result.projectItem, {
+              markers: result.markers,
+              fields: extractFields(result.schemas)
+            });
+          });
+
+
+          console.log(seqResponse);
+          console.log(returnObject);
+          // const seqResponse = await window.evalFunctionJSON('$._ext_POWERSERACH_XMP.getFileMetadata', [
+
+        case 10:
+        case 'end':
+          return _context5.stop();
+      }
+    }
+  }, _callee5, undefined);
+}));
+
+},{"path-parse":2,"uuid":4}],2:[function(require,module,exports){
+(function (process){
+'use strict';
+
+var isWindows = process.platform === 'win32';
+
+// Regex to split a windows path into three parts: [*, device, slash,
+// tail] windows-only
+var splitDeviceRe =
+    /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
+
+// Regex to split the tail part of the above into [*, dir, basename, ext]
+var splitTailRe =
+    /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/;
+
+var win32 = {};
+
+// Function to split a filename into [root, dir, basename, ext]
+function win32SplitPath(filename) {
+  // Separate device+slash from tail
+  var result = splitDeviceRe.exec(filename),
+      device = (result[1] || '') + (result[2] || ''),
+      tail = result[3] || '';
+  // Split the tail into dir, basename and extension
+  var result2 = splitTailRe.exec(tail),
+      dir = result2[1],
+      basename = result2[2],
+      ext = result2[3];
+  return [device, dir, basename, ext];
+}
+
+win32.parse = function(pathString) {
+  if (typeof pathString !== 'string') {
+    throw new TypeError(
+        "Parameter 'pathString' must be a string, not " + typeof pathString
+    );
+  }
+  var allParts = win32SplitPath(pathString);
+  if (!allParts || allParts.length !== 4) {
+    throw new TypeError("Invalid path '" + pathString + "'");
+  }
+  return {
+    root: allParts[0],
+    dir: allParts[0] + allParts[1].slice(0, -1),
+    base: allParts[2],
+    ext: allParts[3],
+    name: allParts[2].slice(0, allParts[2].length - allParts[3].length)
+  };
+};
+
+
+
+// Split a filename into [root, dir, basename, ext], unix version
+// 'root' is just a slash, or nothing.
+var splitPathRe =
+    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var posix = {};
+
+
+function posixSplitPath(filename) {
+  return splitPathRe.exec(filename).slice(1);
+}
+
+
+posix.parse = function(pathString) {
+  if (typeof pathString !== 'string') {
+    throw new TypeError(
+        "Parameter 'pathString' must be a string, not " + typeof pathString
+    );
+  }
+  var allParts = posixSplitPath(pathString);
+  if (!allParts || allParts.length !== 4) {
+    throw new TypeError("Invalid path '" + pathString + "'");
+  }
+  allParts[1] = allParts[1] || '';
+  allParts[2] = allParts[2] || '';
+  allParts[3] = allParts[3] || '';
+
+  return {
+    root: allParts[0],
+    dir: allParts[0] + allParts[1].slice(0, -1),
+    base: allParts[2],
+    ext: allParts[3],
+    name: allParts[2].slice(0, allParts[2].length - allParts[3].length)
+  };
+};
+
+
+if (isWindows)
+  module.exports = win32.parse;
+else /* posix */
+  module.exports = posix.parse;
+
+module.exports.posix = posix.parse;
+module.exports.win32 = win32.parse;
+
+}).call(this,require('_process'))
+},{"_process":3}],3:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -361,104 +543,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],3:[function(require,module,exports){
-(function (process){
-'use strict';
-
-var isWindows = process.platform === 'win32';
-
-// Regex to split a windows path into three parts: [*, device, slash,
-// tail] windows-only
-var splitDeviceRe =
-    /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
-
-// Regex to split the tail part of the above into [*, dir, basename, ext]
-var splitTailRe =
-    /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/;
-
-var win32 = {};
-
-// Function to split a filename into [root, dir, basename, ext]
-function win32SplitPath(filename) {
-  // Separate device+slash from tail
-  var result = splitDeviceRe.exec(filename),
-      device = (result[1] || '') + (result[2] || ''),
-      tail = result[3] || '';
-  // Split the tail into dir, basename and extension
-  var result2 = splitTailRe.exec(tail),
-      dir = result2[1],
-      basename = result2[2],
-      ext = result2[3];
-  return [device, dir, basename, ext];
-}
-
-win32.parse = function(pathString) {
-  if (typeof pathString !== 'string') {
-    throw new TypeError(
-        "Parameter 'pathString' must be a string, not " + typeof pathString
-    );
-  }
-  var allParts = win32SplitPath(pathString);
-  if (!allParts || allParts.length !== 4) {
-    throw new TypeError("Invalid path '" + pathString + "'");
-  }
-  return {
-    root: allParts[0],
-    dir: allParts[0] + allParts[1].slice(0, -1),
-    base: allParts[2],
-    ext: allParts[3],
-    name: allParts[2].slice(0, allParts[2].length - allParts[3].length)
-  };
-};
-
-
-
-// Split a filename into [root, dir, basename, ext], unix version
-// 'root' is just a slash, or nothing.
-var splitPathRe =
-    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-var posix = {};
-
-
-function posixSplitPath(filename) {
-  return splitPathRe.exec(filename).slice(1);
-}
-
-
-posix.parse = function(pathString) {
-  if (typeof pathString !== 'string') {
-    throw new TypeError(
-        "Parameter 'pathString' must be a string, not " + typeof pathString
-    );
-  }
-  var allParts = posixSplitPath(pathString);
-  if (!allParts || allParts.length !== 4) {
-    throw new TypeError("Invalid path '" + pathString + "'");
-  }
-  allParts[1] = allParts[1] || '';
-  allParts[2] = allParts[2] || '';
-  allParts[3] = allParts[3] || '';
-
-  return {
-    root: allParts[0],
-    dir: allParts[0] + allParts[1].slice(0, -1),
-    base: allParts[2],
-    ext: allParts[3],
-    name: allParts[2].slice(0, allParts[2].length - allParts[3].length)
-  };
-};
-
-
-if (isWindows)
-  module.exports = win32.parse;
-else /* posix */
-  module.exports = posix.parse;
-
-module.exports.posix = posix.parse;
-module.exports.win32 = win32.parse;
-
-}).call(this,require('_process'))
-},{"_process":2}],4:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var v1 = require('./v1');
 var v4 = require('./v4');
 

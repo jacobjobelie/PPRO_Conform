@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ExtensionManifest Version="4.0" ExtensionBundleId="com.adobe.PProPanel" ExtensionBundleVersion="11.1"
-ExtensionBundleName="Premiere Pro sample panel" 
+ExtensionBundleName="Premiere Pro sample panel"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ExtensionList>
 		<Extension Id="com.adobe.PProPanel" Version="10.3.0" />
@@ -34,7 +34,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 				</CEFCommandLine>
 				<UI>
 					<Type>Panel</Type>
-					<Menu>PProPanel (SDK sample panel)</Menu>
+					<Menu>PProPanel CUSTOM</Menu>
 					<Geometry>
 						<Size>
 							<Height>300</Height>

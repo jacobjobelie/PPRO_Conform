@@ -9,6 +9,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
   <script src="./digitalanarchy.helpers.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.6.0/async.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.min.js"></script>
   <script src="./ext.js"></script>
   <script src="./host.js"></script>
   <script src="./digitalanarchy.helpers.js"></script>
@@ -68,6 +69,13 @@
       window.InsertClips(csInterface)
     });
 
+     $("#xmp").on("click", function(e) {
+      e.preventDefault();
+      var csInterface = new CSInterface();
+
+      window.XMP(csInterface)
+    });
+
   });
   </script>
   <script src="bundle.js"></script>
@@ -77,6 +85,7 @@
   <a href="javascript:history.go(0)">Refresh panel</a>
   <button id="conform3">CONFORM SOURCE</button>
   <button id="conform4">INSERT CLIPS</button>
+  <button id="xmp">XMP</button>
 </body>
 <script>
 document.body.onbeforeunload = function() {
