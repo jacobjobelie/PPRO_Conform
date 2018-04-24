@@ -112,10 +112,9 @@ window.Conform = async () => {
 
 window.XMP = async () => {
   const tree = await window.evalFunctionJSON('$._PPP_.getTree', []);
-
+  console.log(JSON.stringify(tree));
   const seqResponse = await Promise.all(
     tree.rootItems
-      //.filter(obj => obj.name.indexOf('mov') > -1)
       .map(obj =>
         window.evalFunctionJSON('$._ext_POWERSERACH_XMP.getFileMetadata', [
           JSON.stringify(obj),
@@ -129,26 +128,40 @@ window.XMP = async () => {
     schemas.forEach(schema => {
       schema.filter(prop => prop.path.indexOf('/?xml') < 0).forEach(prop => {
         const { value } = prop;
+        //eg: "xmp:ModifyDate"
         const category = prop.path.split(':')[0];
         const name = prop.path.split(':')[1];
-        let arrayIndexStr = name.split('[')[1];
-        arrayIndexStr = !!arrayIndexStr
-          ? parseInt(arrayIndexStr.substring(0, 1), 10)
-          : null;
-        const isArrayItem = !_.isNil(arrayIndexStr);
+        //eg: "xmp:ModifyDate[1]"
+        let arrayIndex = name.split('[')[1];
+        //extract index number
+        arrayIndex = !!arrayIndex ? parseInt(arrayIndex.substring(0, 1), 10) : null;
+        // does belong to array
+        const isArrayItem = !_.isNil(arrayIndex);
+        //eg: "ModifyDate[1]" -> ModifyDate
         const nameExtracted = isArrayItem ? name.split('[')[0] : name;
         const obj = {
           category,
           key: isArrayItem ? nameExtracted : name,
           value,
         };
+        // says it's an array item
         if (isArrayItem) {
+          // does an array exist under that key?
           if (_.isArray(fields[nameExtracted])) {
-            console.log(obj);
             fields[nameExtracted].push(obj);
           } else {
-            console.log(nameExtracted);
-            console.log(obj);
+            //doest exist yet
+            if (!fields[nameExtracted]) {
+              fields[nameExtracted] = obj;
+            } else {
+              // value can be empty sometimes
+              if (!fields[nameExtracted].value.length) {
+                fields[nameExtracted] = obj;
+              } else {
+                //make an array
+                fields[nameExtracted] = [fields[nameExtracted], obj];
+              }
+            }
           }
         } else {
           const arr = prop.isArray && obj.value.length ? [obj] : [];
@@ -161,11 +174,13 @@ window.XMP = async () => {
 
   const returnObject = seqResponse.map(result => ({
     ...result.projectItem,
+    speechAnalysisData:result.speechAnalysisData,
+    sequenceMetadata:result.sequenceMetadata,
     markers: result.markers,
     fields: extractFields(result.schemas),
   }));
 
   console.log(seqResponse);
-  console.log(returnObject);
+  console.log(JSON.stringify(returnObject));
   // const seqResponse = await window.evalFunctionJSON('$._ext_POWERSERACH_XMP.getFileMetadata', [
 };

@@ -194,14 +194,14 @@ window.XMP = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _c
 
         case 2:
           tree = _context5.sent;
-          _context5.next = 5;
-          return Promise.all(tree.rootItems
-          //.filter(obj => obj.name.indexOf('mov') > -1)
-          .map(function (obj) {
+
+          console.log(JSON.stringify(tree));
+          _context5.next = 6;
+          return Promise.all(tree.rootItems.map(function (obj) {
             return window.evalFunctionJSON('$._ext_POWERSERACH_XMP.getFileMetadata', [JSON.stringify(obj), false]);
           }));
 
-        case 5:
+        case 6:
           seqResponse = _context5.sent;
 
           extractFields = function extractFields(schemas) {
@@ -211,25 +211,41 @@ window.XMP = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _c
                 return prop.path.indexOf('/?xml') < 0;
               }).forEach(function (prop) {
                 var value = prop.value;
+                //eg: "xmp:ModifyDate"
 
                 var category = prop.path.split(':')[0];
                 var name = prop.path.split(':')[1];
-                var arrayIndexStr = name.split('[')[1];
-                arrayIndexStr = !!arrayIndexStr ? parseInt(arrayIndexStr.substring(0, 1), 10) : null;
-                var isArrayItem = !_.isNil(arrayIndexStr);
+                //eg: "xmp:ModifyDate[1]"
+                var arrayIndex = name.split('[')[1];
+                //extract index number
+                arrayIndex = !!arrayIndex ? parseInt(arrayIndex.substring(0, 1), 10) : null;
+                // does belong to array
+                var isArrayItem = !_.isNil(arrayIndex);
+                //eg: "ModifyDate[1]" -> ModifyDate
                 var nameExtracted = isArrayItem ? name.split('[')[0] : name;
                 var obj = {
                   category: category,
                   key: isArrayItem ? nameExtracted : name,
                   value: value
                 };
+                // says it's an array item
                 if (isArrayItem) {
+                  // does an array exist under that key?
                   if (_.isArray(fields[nameExtracted])) {
-                    console.log(obj);
                     fields[nameExtracted].push(obj);
                   } else {
-                    console.log(nameExtracted);
-                    console.log(obj);
+                    //doest exist yet
+                    if (!fields[nameExtracted]) {
+                      fields[nameExtracted] = obj;
+                    } else {
+                      // value can be empty sometimes
+                      if (!fields[nameExtracted].value.length) {
+                        fields[nameExtracted] = obj;
+                      } else {
+                        //make an array
+                        fields[nameExtracted] = [fields[nameExtracted], obj];
+                      }
+                    }
                   }
                 } else {
                   var arr = prop.isArray && obj.value.length ? [obj] : [];
@@ -242,6 +258,8 @@ window.XMP = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _c
 
           returnObject = seqResponse.map(function (result) {
             return _extends({}, result.projectItem, {
+              speechAnalysisData: result.speechAnalysisData,
+              sequenceMetadata: result.sequenceMetadata,
               markers: result.markers,
               fields: extractFields(result.schemas)
             });
@@ -249,10 +267,10 @@ window.XMP = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _c
 
 
           console.log(seqResponse);
-          console.log(returnObject);
+          console.log(JSON.stringify(returnObject));
           // const seqResponse = await window.evalFunctionJSON('$._ext_POWERSERACH_XMP.getFileMetadata', [
 
-        case 10:
+        case 11:
         case 'end':
           return _context5.stop();
       }

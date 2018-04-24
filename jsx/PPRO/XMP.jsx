@@ -1379,6 +1379,15 @@ $._ext_POWERSERACH_XMP = {
       });
     return results;
   },
+  isProjectItemASequence: function(projectItem) {
+    var seqCount = app.project.sequences.numSequences;
+    for (var i = 0; i < seqCount; i++) {
+      if (app.project.sequences[i].projectItem.treePath === projectItem.treePath) {
+        return true;
+      }
+    }
+    return false;
+  },
   getFileMetadata: function(object) {
     if (!this.initXMP()) {
       this.initXMP();
@@ -1387,13 +1396,22 @@ $._ext_POWERSERACH_XMP = {
     var searchParam = !!parsed.nodeId ? 'nodeId' : 'name';
     var searchValue = parsed[searchParam];
     var projectItem = this.findProjectItemByKey(searchParam, searchValue);
-    var xmpMetadata = new XMPMeta(projectItem.getXMPMetadata());
-    //XMPConst.NS_DM
-    return $._ext_JSON.stringify({
-      projectItem: projectItem,
-      schemas: this.getSchemas(projectItem, null, xmpMetadata),
-      markers: $._PPP_.getClipMarkers(projectItem),
-      clipMetadata: this.readSpeechAnalysis(xmpMetadata),
-    });
+    if (projectItem) {
+      var xmpMetadata = new XMPMeta(projectItem.getXMPMetadata());
+      var result = {
+        projectItem: projectItem,
+        markers: $._PPP_.getClipMarkers(projectItem),
+        schemas: this.getSchemas(projectItem, null, xmpMetadata),
+      }
+
+      if (this.isProjectItemASequence(projectItem)) {
+        var projectXmp = new XMPMeta(projectItem.getProjectMetadata());
+        result.sequenceMetadata = this.loadTranscriptsFromXMP(projectXmp);
+        return $._ext_JSON.stringify(result);
+      }
+      //XMPConst.NS_DM
+      result.speechAnalysisData = this.readSpeechAnalysis(xmpMetadata);
+      return $._ext_JSON.stringify(result);
+    }
   },
 };
