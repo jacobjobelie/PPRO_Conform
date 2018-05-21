@@ -1,4 +1,7 @@
 const { v4 } = require('uuid');
+const { Conforming, Timecode, WatsonPostprocess } = require('digitalanarchy.helpers');
+const {importSpeechToText} = require('./src/import');
+const SIMULATE = require('./src/simulate');
 const Parse = require('path-parse');
 
 const requestJSON = async function(url) {
@@ -22,20 +25,20 @@ const insertClip = async clip => {
   /*console.log(treePath);
   console.log(inTime, outTime);
   console.log(timeValues);*/
-  // const timecode = window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame });
+  // const timecode = Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame });
 
   return window.evalFunction('$._PPP_.addClipToSequenceTimeline', [
     treePath,
-    window.DigitalAnarchy.Timecode.fromSeconds(inTime, {
+    Timecode.fromSeconds(inTime, {
       frameRate: 59.7,
       dropFrame: false,
     }),
-    window.DigitalAnarchy.Timecode.fromSeconds(outTime, {
+    Timecode.fromSeconds(outTime, {
       frameRate: 59.7,
       dropFrame: false,
     }),
-    /*window.DigitalAnarchy.Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),
-window.DigitalAnarchy.Timecode.fromSeconds(outTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),*/
+    /*Timecode.fromSeconds(inTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),
+Timecode.fromSeconds(outTime, { frameRate: timeValues.frameRate, dropFrame: timeValues.dropFrame }),*/
   ]);
 };
 
@@ -61,12 +64,16 @@ WE NEED TO CONVERT TO CLIP IN/OUT TIMES
 *************/
 
 window.Conform = async () => {
-  const transcripts = await requestJSON('http://0.0.0.0:4433/output.json');
-  const clipJson = await requestJSON('http://0.0.0.0:4433/clipData.json');
-  const conformingClips = window.DigitalAnarchy.Conforming.fromJSON(
-    transcripts,
-    clipJson,
-  );
+  const {clips, transcripts} = await requestJSON('http://0.0.0.0:4433/json/video.json');
+  //const transcripts = await requestJSON('http://0.0.0.0:4433/output.json');
+  //const clipJson = await requestJSON('http://0.0.0.0:4433/clipData.json');
+  const transcriptsAlter = [...transcripts].map(transcript => SIMULATE.removeRange(transcript, [4, 8]));
+  //const transcriptsAlter = [...transcripts].map(transcript => SIMULATE.removeWordsMiddle(transcript,0));
+  // const conformingClips = Conforming.fromJSON(transcripts, clips);
+  const conformingClips = Conforming.compare2(transcripts, transcriptsAlter, clips);
+  console.log(conformingClips);
+  return;
+
   const presetName = 'PProPanel';
   const seqName = 'Conformed sequence';
   const binName = 'newBin';
@@ -110,17 +117,20 @@ window.Conform = async () => {
   console.log(clipNames);*/
 };
 
+
+/* **************
+*    TABLE POWERSEARCH
+************** */
 window.XMP = async () => {
   const tree = await window.evalFunctionJSON('$._PPP_.getTree', []);
   console.log(JSON.stringify(tree));
   const seqResponse = await Promise.all(
-    tree.rootItems
-      .map(obj =>
-        window.evalFunctionJSON('$._ext_POWERSERACH_XMP.getFileMetadata', [
-          JSON.stringify(obj),
-          false,
-        ]),
-      ),
+    tree.rootItems.map(obj =>
+      window.evalFunctionJSON('$._ext_POWERSERACH_XMP.getFileMetadata', [
+        JSON.stringify(obj),
+        false,
+      ]),
+    ),
   );
 
   const extractFields = schemas => {
@@ -174,8 +184,8 @@ window.XMP = async () => {
 
   const returnObject = seqResponse.map(result => ({
     ...result.projectItem,
-    speechAnalysisData:result.speechAnalysisData,
-    sequenceMetadata:result.sequenceMetadata,
+    speechAnalysisData: result.speechAnalysisData,
+    sequenceMetadata: result.sequenceMetadata,
     markers: result.markers,
     fields: extractFields(result.schemas),
   }));
